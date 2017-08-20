@@ -27,8 +27,8 @@ if($dados){
     }
 
     function uploadFiles() {
-        mkdir('_uploads', 0777);
-        $uploaddir = '_uploads/';
+        mkdir('../../../_uploads', 0777);
+        $uploaddir = '../../../_uploads/';
 
         if(!empty($_FILES['logo']['name']) && preg_match('/^image\//i', $_FILES['logo']['type'])) {
             move_uploaded_file($_FILES['logo']['tmp_name'], $uploaddir . basename($_FILES['logo']['name']));
@@ -47,7 +47,7 @@ if($dados){
             $dados = "RewriteCond %{HTTP_HOST} ^www.(.*) [NC]\nRewriteRule ^(.*) http://%1/$1 [R=301,L]";
         }
 
-        $fp = fopen(".htaccess", "w");
+        $fp = fopen("../../../.htaccess", "w");
         $escreve = fwrite($fp,
 "RewriteEngine On
 {$dados}
@@ -74,7 +74,7 @@ ExpiresDefault \"access 1 month\"
     }
 
     function createIndex() {
-        $fp = fopen("index.php", "w");
+        $fp = fopen("../../../index.php", "w");
         $escreve = fwrite($fp, "<?php
 require('./_config/config.php');
 
@@ -115,8 +115,8 @@ require_once PATH_HOME . 'vendor/autoload.php';\n\n
 \$session->setLevelAccess(5, \"administrador\", \"adm\", \"acesso total ao sistema e controle.\");\n\n
 \$link = new \LinkControl\Link();";
 
-        mkdir('_config', 0777);
-        $fp = fopen("_config/config.php", "w");
+        mkdir('../../../_config', 0777);
+        $fp = fopen("../../../_config/config.php", "w");
         $escreve = fwrite($fp, $conf);
         fclose($fp);
     }

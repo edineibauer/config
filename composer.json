@@ -9,13 +9,6 @@
     }
   ],
   "require": {
-    "php": "^7.0",
-    "composer/installers": "~1.0",
-    "conn/config": "^1.0"
-  },
-  "extra": {
-    "installer-paths": {
-      "/": ["conn/config"]
-    }
+    "php": "^7.0"
   }
 }

@@ -14,7 +14,7 @@
   },
   "extra": {
     "installer-paths": {
-      "/": ["vendor/package"]
+      "/": ["conn/config"]
     }
   }
 }

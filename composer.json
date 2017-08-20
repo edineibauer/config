@@ -1,0 +1,16 @@
+{
+  "name": "conn/config",
+  "description": "Configurações base para novo projeto",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Edinei J. Bauer",
+      "email": "edineibauer@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0"
+  }
+}
+
+

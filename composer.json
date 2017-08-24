@@ -9,7 +9,8 @@
     }
   ],
   "require": {
-    "php": "^7.0"
-    "conn/link-control": "^1"
+    "php": "^7.0",
+    "conn/link-control": "^1",
+    "conn/session-control": "^1"
   }
 }

@@ -52,7 +52,6 @@ if($dados){
 "RewriteEngine On
 {$dados}
 
-RewriteRule ^start$ vendor/conn/config/generate.php [L] 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1
@@ -136,6 +135,8 @@ $conf .= "\$link = new \LinkControl\Link();";
         createConfig($dados);
         createHtaccess($dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
         unlink('generate.php');
+
+        header("Location: index.php");
     }
 
 } else {

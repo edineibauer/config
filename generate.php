@@ -81,7 +81,7 @@ require('./_config/config.php');
 use Helpers\Check;
 use Helpers\Template;
 
-\$view = new Template(\"LinkControl\");
+\$view = new Template(\"link-control\");
 
 if(!Check::ajax()){
 

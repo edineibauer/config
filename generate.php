@@ -52,6 +52,7 @@ if($dados){
 "RewriteEngine On
 {$dados}
 
+RewriteRule ^start$ vendor/conn/config/generate.php [L] 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1
@@ -106,14 +107,16 @@ if(!Check::ajax()){
         }
 
         $conf .= "\$script = \"<script>const HOME = '\" . HOME . \"';</script>\";\n
-require_once PATH_HOME . 'vendor/autoload.php';\n\n
-\$session = new \SessionControl\Session();
+require_once PATH_HOME . 'vendor/autoload.php';\n\n";
+
+       /* $conf .= "\$session = new \SessionControl\Session();
 \$session->setLevelAccess(1, \"usuário\", \"user\",\"usuário do site, acesso a recursos e consumidor de produtos.\");
 \$session->setLevelAccess(2, \"produtor\", \"producer\", \"produtor de conteúdos para o site, ou abastecimento de informações.\");
 \$session->setLevelAccess(3, \"analista\", \"managment\", \"analista, verificador de conteúdo. Gerenciador dos usuários de produção e usuários do site\");
 \$session->setLevelAccess(4, \"gerente\", \"adm\", \"acesso total ao sistema com excessão ao gerenciamento de usuários de mesmo nível ou superior.\");
-\$session->setLevelAccess(5, \"administrador\", \"adm\", \"acesso total ao sistema e controle.\");\n\n
-\$link = new \LinkControl\Link();";
+\$session->setLevelAccess(5, \"administrador\", \"adm\", \"acesso total ao sistema e controle.\");\n\n";*/
+
+$conf .= "\$link = new \LinkControl\Link();";
 
         mkdir('../../../_config', 0777);
         $fp = fopen("../../../_config/config.php", "w");

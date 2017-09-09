@@ -11,6 +11,6 @@
   "require": {
     "php": "^7.0",
     "conn/link-control": "^1",
-    "conn/session-control": "^1"
+    "conn/entity": "^1"
   }
 }

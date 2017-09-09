@@ -79,9 +79,9 @@ ExpiresDefault \"access 1 month\"
 require('./_config/config.php');
 
 use Helpers\Check;
-use Helpers\View;
+use Helpers\Template;
 
-\$view = new View();
+\$view = new Template(\"LinkControl\");
 
 if(!Check::ajax()){
 

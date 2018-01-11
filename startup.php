@@ -134,9 +134,9 @@ $conf .= "\$link = new \LinkControl\Link();";
         createIndex();
         createConfig($dados);
         createHtaccess($dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
-        unlink('generate.php');
+        unlink('startup.php');
 
-        header("Location: /");
+        header("Location: ../../../");
     }
 
 } else {

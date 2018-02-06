@@ -14,7 +14,7 @@ if($dados){
         $dados['path_home'] = ($_SERVER['DOCUMENT_ROOT'] . ($dados['localhost'] ? DIRECTORY_SEPARATOR . $dados['dominio'] : "") . "/");
         $dados['logo'] = (!empty($_FILES['logo']['name']) ? $dados['home'] . '_uploads/' . $_FILES['logo']['name'] : "");
         $dados['favicon'] = (!empty($_FILES['favicon']['name']) ? $dados['home'] . '_uploads/' . $_FILES['favicon']['name'] : "");
-        $dados['dev'] = false;
+        $dados['dev'] = 'false';
 
         if(empty($dados['recaptchasite']) || empty($dados['recaptcha'])) {
             unset($dados['recaptchasite'], $dados['recaptcha']);

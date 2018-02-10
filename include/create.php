@@ -91,6 +91,15 @@ if(!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host']
     createTheme();
     createHtaccess($dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
     unlink('startup.php');
+    unlink('assets/config.css');
+    unlink('assets/config.js');
+    unlink('assets/param.json');
+    unlink('assets/routes.json');
+    unlink('assets/theme-blue.css');
+    unlink('include/create.php');
+    unlink('include/form.php');
+    unlink('tpl/htaccess.txt');
+    unlink('tpl/index.txt');
     rmdir('assets');
     rmdir('include');
     rmdir('tpl');

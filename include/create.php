@@ -1,6 +1,8 @@
 <?php
 function createDir($dir) {
-    mkdir("../../../{$dir}", 0777);
+    if(!file_exists("../../../{$dir}"))
+        mkdir("../../../{$dir}", 0777);
+
     return "../../../{$dir}";
 }
 
@@ -89,9 +91,9 @@ if(!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host']
     createTheme();
     createHtaccess($dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
     unlink('startup.php');
-    unlink('assets');
-    unlink('include');
-    unlink('tpl');
+    rmdir('assets');
+    rmdir('include');
+    rmdir('tpl');
 
     header("Location: ../../../dashboard");
 }

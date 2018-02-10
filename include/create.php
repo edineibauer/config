@@ -70,12 +70,6 @@ function createRoute() {
     copy("assets/routes.json", "../../../_config/route.json");
 }
 
-function createTheme() {
-    $dest = createDir("assets");
-    copy("assets/theme-blue.css", $dest . DIRECTORY_SEPARATOR . "theme.css");
-    copy("assets/theme-blue.css", $dest . DIRECTORY_SEPARATOR . "theme.min.css");
-}
-
 function createParam($dados) {
     $data = str_replace('{$sitename}', $dados['sitename'], file_get_contents("assets/param.json"));
     writeFile("_config/param.json", $data);
@@ -89,7 +83,6 @@ if(!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host']
     createConfig($dados);
     createRoute();
     createParam($dados);
-    createTheme();
     createHtaccess($dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
     unlink('startup.php');
     unlink('assets/config.css');

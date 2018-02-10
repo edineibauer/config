@@ -73,6 +73,7 @@ function createRoute() {
 function createTheme() {
     $dest = createDir("assets");
     copy("assets/theme-blue.css", $dest . DIRECTORY_SEPARATOR . "theme.css");
+    copy("assets/theme-blue.css", $dest . DIRECTORY_SEPARATOR . "theme.min.css");
 }
 
 function createParam($dados) {

@@ -123,6 +123,11 @@
 
             </div>
 
+            <p>
+                <input type="checkbox" name="dev" id="dev" checked="checked" />
+                <label for="dev">Dev</label>
+            </p>
+
             <button type="submit" class="waves-effect waves-light btn">Criar Projeto</button>
 
         </form>
@@ -130,4 +135,5 @@
 </div>
 
 <link rel="stylesheet" href="assets/config.css" />
-<script src="assets/config.js"></script>
+<script src="assets/jquery.js"></script>
+<script src="assets/materialize.min.js"></script>

@@ -5,12 +5,7 @@ if (!file_exists('../../../_config')) {
     if ($dados) {
         include_once 'include/create.php';
 
-        require('../../../_config/config.php');
-
-        if (class_exists('\SessionControl\Login'))
-            include_once 'include/adminCreator.php';
-        else
-            include_once 'ajax/defecon4.php';
+        header("Location: ../../../checkDependencies");
 
     } else {
         $domain = $_SERVER['SERVER_NAME'];

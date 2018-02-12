@@ -9,7 +9,6 @@ rmdir('assets');
 
 unlink('include/form.php');
 unlink('include/create.php');
-unlink('include/adminCreator.php');
 rmdir('include');
 
 unlink('tpl/htaccess.txt');

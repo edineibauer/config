@@ -1,7 +1,7 @@
 [
   "link-control",
+  "config",
   "session-control",
   "entity-form",
-  "table",
-  "form-crud"
+  "dashboard"
 ]

@@ -71,9 +71,13 @@ function createConfig($dados)
     writeFile("_config/config.php", $conf);
 }
 
-function createRoute()
+function createRoute($dados)
 {
-    copy("assets/routes.json", "../../../_config/route.json");
+    $data = json_decode(file_get_contents("assets/routes.json"), true);
+    if($dados['dev'] && !in_array($dados['dominio'], $data))
+        $data[] = $dados['dominio'];
+
+    writeFile("_config/route.json", json_encode($data));
 }
 
 function createParam($dados)
@@ -87,7 +91,7 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     uploadFiles();
     writeFile("index.php", file_get_contents("tpl/index.txt"));
     createConfig($dados);
-    createRoute();
+    createRoute($dados);
     createParam($dados);
     createHtaccess($dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
 }

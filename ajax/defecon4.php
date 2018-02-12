@@ -17,5 +17,3 @@ rmdir(PATH_HOME . 'vendor/conn/config/tpl');
 unlink(PATH_HOME . 'vendor/conn/config/ajax/defecon4.php');
 
 unlink(PATH_HOME . 'vendor/conn/config/startup.php');
-
-header("Location: " . HOME . "dashboard");

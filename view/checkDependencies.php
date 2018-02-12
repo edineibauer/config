@@ -14,5 +14,5 @@ foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $item) {
 
 if (!$config && file_exists(PATH_HOME . "vendor/conn/config/ajax/defecon4.php"))
     include_once PATH_HOME . "vendor/conn/config/ajax/defecon4.php";
-
-header("Location: " . HOME . "dashboard");
+elseif(!$config)
+    header("Location: " . HOME . "dashboard");

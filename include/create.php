@@ -29,8 +29,10 @@ function getValuesServer($dados)
     $dados['favicon'] = (!empty($_FILES['favicon']['name']) ? $dados['home'] . '_uploads/' . $_FILES['favicon']['name'] : "");
     $dados['dev'] = $dados['dev'] ?? false;
 
-    if (empty($dados['recaptchasite']) || empty($dados['recaptcha']))
-        unset($dados['recaptchasite'], $dados['recaptcha']);
+    if(isset($dados['recaptcha'])) {
+        if (empty($dados['recaptchasite']) || empty($dados['recaptcha']))
+            unset($dados['recaptchasite'], $dados['recaptcha']);
+    }
 
     if (empty($dados['email']) || empty($dados['mailgundomain']) || empty($dados['mailgunkey']))
         unset($dados['email'], $dados['mailgundomain'], $dados['mailgunkey']);

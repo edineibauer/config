@@ -106,22 +106,28 @@
                 </div>
             </div>
 
-            <div class="row clearfix">
-                <br>
-                <h4>Recaptcha Google Config</h4>
-                <p><a href="https://www.google.com/recaptcha/admin" target="_blank">link para recaptcha</a></p>
-                <div class="clearfix"><br></div>
+            <?php
+            if(file_exists('../session-control')) {
+                ?>
+                <div class="row clearfix">
+                    <br>
+                    <h4>Recaptcha Google Config</h4>
+                    <p><a href="https://www.google.com/recaptcha/admin" target="_blank">link para recaptcha</a></p>
+                    <div class="clearfix"><br></div>
 
-                <div class="input-field col s12 m6">
-                    <input id="recaptcha" name="recaptcha" type="text" class="validate">
-                    <label for="recaptcha">Recaptcha</label>
-                </div>
-                <div class="input-field col s12 m6">
-                    <input id="recaptchasite" name="recaptchasite" type="text" class="validate">
-                    <label for="recaptchasite">Recaptcha Site</label>
-                </div>
+                    <div class="input-field col s12 m6">
+                        <input id="recaptcha" name="recaptcha" type="text" class="validate">
+                        <label for="recaptcha">Recaptcha</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <input id="recaptchasite" name="recaptchasite" type="text" class="validate">
+                        <label for="recaptchasite">Recaptcha Site</label>
+                    </div>
 
-            </div>
+                </div>
+                <?php
+            }
+            ?>
 
             <p>
                 <input type="checkbox" name="dev" id="dev" checked="checked" />

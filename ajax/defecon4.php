@@ -1,22 +1,21 @@
 <?php
+unlink(PATH_HOME . 'vendor/conn/config/assets/param.json');
+unlink(PATH_HOME . 'vendor/conn/config/assets/routes.json');
+unlink(PATH_HOME . 'vendor/conn/config/assets/materialize.min.js');
+unlink(PATH_HOME . 'vendor/conn/config/assets/jquery.js');
+unlink(PATH_HOME . 'vendor/conn/config/assets/config.css');
+rmdir(PATH_HOME . 'vendor/conn/config/assets');
 
-unlink('assets/param.json');
-unlink('assets/routes.json');
-unlink("assets/materialize.min.js");
-unlink("assets/jquery.js");
-unlink('assets/config.css');
-rmdir('assets');
+unlink(PATH_HOME . 'vendor/conn/config/include/form.php');
+unlink(PATH_HOME . 'vendor/conn/config/include/create.php');
+rmdir(PATH_HOME . 'vendor/conn/config/include');
 
-unlink('include/form.php');
-unlink('include/create.php');
-rmdir('include');
+unlink(PATH_HOME . 'vendor/conn/config/tpl/htaccess.txt');
+unlink(PATH_HOME . 'vendor/conn/config/tpl/index.txt');
+rmdir(PATH_HOME . 'vendor/conn/config/tpl');
 
-unlink('tpl/htaccess.txt');
-unlink('tpl/index.txt');
-rmdir('tpl');
+unlink(PATH_HOME . 'vendor/conn/config/ajax/defecon4.php');
 
-unlink('ajax/defecon4.php');
+unlink(PATH_HOME . 'vendor/conn/config/startup.php');
 
-unlink('startup.php');
-
-header("Location: ../../../dashboard");
+header("Location: " . HOME . "dashboard");

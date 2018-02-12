@@ -16,12 +16,7 @@ unlink('tpl/index.txt');
 rmdir('tpl');
 
 unlink('ajax/defecon4.php');
-rmdir('ajax');
 
 unlink('startup.php');
-unlink('composer.json');
-unlink('LICENSE');
-unlink('README.md');
-rmdir('../config');
 
 header("Location: ../../../dashboard");

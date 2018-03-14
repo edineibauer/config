@@ -10,4 +10,4 @@ $f = fopen(PATH_HOME . "_config/updates" . DIRECTORY_SEPARATOR . $lib . ".txt", 
 fwrite($f, "1");
 fclose($f);
 
-header("Location: " . HOME . "checkDependencies");
+$data['data'] = '1';

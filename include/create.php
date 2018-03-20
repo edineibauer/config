@@ -95,5 +95,11 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     createConfig($dados);
     createRoute($dados);
     createParam($dados);
+    writeFile("tim.php", file_get_contents("tpl/tim.txt"));
+    createDir("entity");
+    writeFile("_config/.htaccess", "Deny from all");
+    writeFile("entity/.htaccess", "Deny from all");
+    writeFile("vendor/.htaccess", "Deny from all");
+
     createHtaccess($dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
 }

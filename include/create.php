@@ -99,7 +99,26 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     createDir("entity");
     writeFile("_config/.htaccess", "Deny from all");
     writeFile("entity/.htaccess", "Deny from all");
-    writeFile("vendor/.htaccess", "Deny from all");
+
+    $content = '
+<Files "*.json">
+    Order Deny,Allow
+    Deny from all
+</Files>
+<Files "*.php">
+    Order Deny,Allow
+    Deny from all
+</Files>
+<Files "*.html">
+    Order Deny,Allow
+    Deny from all
+</Files>
+<Files "*.tpl">
+    Order Deny,Allow
+    Deny from all
+</Files>';
+
+    writeFile("vendor/.htaccess", $content);
 
     createHtaccess($dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
 }

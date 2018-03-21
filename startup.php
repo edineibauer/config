@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 if (!file_exists('../../../_config')) {
     $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
     if ($dados) {
@@ -19,3 +19,4 @@ if (!file_exists('../../../_config')) {
     if (file_exists('ajax/defecon4.php'))
         include_once 'ajax/defecon4.php';
 }
+ob_end_flush();

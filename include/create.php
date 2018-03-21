@@ -9,7 +9,7 @@ function createDir($dir)
 
 function writeFile($file, $content)
 {
-    $fp = fopen("../../../{$file}", "w");
+    $fp = fopen("../../../{$file}", "w+");
     fwrite($fp, $content);
     fclose($fp);
 }
@@ -54,7 +54,7 @@ function uploadFiles()
 
 function createHtaccess($www = null, $domain = null, $protocol = null)
 {
-    $dados = "RewriteCond %{HTTP_HOST} ^" . ($www ? "{$domain}\nRewriteRule ^ {$protocol}://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) http://%1/$1") . " [L,R=301]";
+    $dados = "RewriteCond %{HTTP_HOST} ^" . ($www ? "{$domain}\nRewriteRule ^ {$protocol}://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) {$protocol}://%1/$1") . " [L,R=301]";
     writeFile(".htaccess", str_replace('{$dados}', $dados, file_get_contents("tpl/htaccess.txt")));
 }
 

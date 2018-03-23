@@ -1,6 +1,8 @@
 RewriteEngine On
 {$dados}
 
+RewriteRule ^image\/(.*)$ tim.php?src={$home}$1 [L]
+
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1

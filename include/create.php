@@ -52,10 +52,10 @@ function uploadFiles()
         move_uploaded_file($_FILES['favicon']['tmp_name'], $uploaddir . DIRECTORY_SEPARATOR . basename($_FILES['favicon']['name']));
 }
 
-function createHtaccess($www = null, $domain = null, $protocol = null)
+function createHtaccess($data, $www = null, $domain = null, $protocol = null)
 {
     $dados = "RewriteCond %{HTTP_HOST} ^" . ($www ? "{$domain}\nRewriteRule ^ {$protocol}://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) {$protocol}://%1/$1") . " [L,R=301]";
-    writeFile(".htaccess", str_replace('{$dados}', $dados, file_get_contents("tpl/htaccess.txt")));
+    writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("tpl/htaccess.txt")));
 }
 
 function createConfig($dados)
@@ -120,5 +120,5 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
 
     writeFile("vendor/.htaccess", $content);
 
-    createHtaccess($dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
+    createHtaccess($dados,$dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
 }

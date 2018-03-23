@@ -25,8 +25,8 @@ function getValuesServer($dados)
     $dados['dominio'] = $domain;
     $dados['home'] = $dados['protocol'] . ($dados['localhost'] ? 'localhost/' : '') . $dados['dominio'] . "/";
     $dados['path_home'] = ($_SERVER['DOCUMENT_ROOT'] . ($dados['localhost'] ? DIRECTORY_SEPARATOR . $dados['dominio'] : "") . "/");
-    $dados['logo'] = (!empty($_FILES['logo']['name']) ? $dados['home'] . 'uploads/site/' . $_FILES['logo']['name'] : "");
-    $dados['favicon'] = (!empty($_FILES['favicon']['name']) ? $dados['home'] . 'uploads/site/' . $_FILES['favicon']['name'] : "");
+    $dados['logo'] = (!empty($_FILES['logo']['name']) ? 'uploads/site/' . $_FILES['logo']['name'] : "");
+    $dados['favicon'] = (!empty($_FILES['favicon']['name']) ? 'uploads/site/' . $_FILES['favicon']['name'] : "");
     $dados['dev'] = $dados['dev'] ?? false;
 
     if(isset($dados['recaptcha'])) {

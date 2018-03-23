@@ -67,7 +67,7 @@ function createConfig($dados)
         $conf .= "define('" . strtoupper($dado) . "', {$value});\n";
     }
 
-    $conf .= "\$script = \"<script>const HOME = '\" . HOME . \"';const ISDEVFORM = false;const ISDEVPANEL = false;</script>\";\nrequire_once PATH_HOME . 'vendor/autoload.php';\n\n\$link = new \LinkControl\Link();";
+    $conf .= "\$script = \"<script>const HOME = '\" . HOME . \"';const ISDEV = false;</script>\";\nrequire_once PATH_HOME . 'vendor/autoload.php';\n\n\$link = new \LinkControl\Link();";
 
     createDir("_config");
     writeFile("_config/config.php", $conf);

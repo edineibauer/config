@@ -29,7 +29,7 @@ function getValuesServer($dados)
     $dados['favicon'] = (!empty($_FILES['favicon']['name']) ? 'uploads/site/' . $_FILES['favicon']['name'] : "");
     $dados['dev'] = $dados['dev'] ?? false;
 
-    if(isset($dados['recaptcha'])) {
+    if (isset($dados['recaptcha'])) {
         if (empty($dados['recaptchasite']) || empty($dados['recaptcha']))
             unset($dados['recaptchasite'], $dados['recaptcha']);
     }
@@ -67,8 +67,6 @@ function createConfig($dados)
         $conf .= "define('" . strtoupper($dado) . "', {$value});\n";
     }
 
-    $conf .= "\$script = \"<script>const HOME = '\" . HOME . \"';const ISDEV = false;</script>\";\nrequire_once PATH_HOME . 'vendor/autoload.php';\n\n\$link = new \LinkControl\Link();";
-
     createDir("_config");
     writeFile("_config/config.php", $conf);
 }
@@ -76,7 +74,7 @@ function createConfig($dados)
 function createRoute($dados)
 {
     $data = json_decode(file_get_contents("assets/routes.json"), true);
-    if($dados['dev'] && !in_array($dados['dominio'], $data))
+    if ($dados['dev'] && !in_array($dados['dominio'], $data))
         $data[] = $dados['dominio'];
 
     writeFile("_config/route.json", json_encode($data));
@@ -86,6 +84,26 @@ function createParam($dados)
 {
     $data = str_replace('{$sitename}', $dados['sitename'], file_get_contents("assets/param.json"));
     writeFile("_config/param.json", $data);
+}
+
+function getAccessFile()
+{
+    return '<Files "*.json">
+            Order Deny,Allow
+            Deny from all
+        </Files>
+        <Files "*.php">
+            Order Deny,Allow
+            Deny from all
+        </Files>
+        <Files "*.html">
+            Order Deny,Allow
+            Deny from all
+        </Files>
+        <Files "*.tpl">
+            Order Deny,Allow
+            Deny from all
+        </Files>';
 }
 
 if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host']) && !empty($dados['database']) && !empty($dados['pre'])) {
@@ -99,26 +117,7 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     createDir("entity");
     writeFile("_config/.htaccess", "Deny from all");
     writeFile("entity/.htaccess", "Deny from all");
+    writeFile("vendor/.htaccess", getAccessFile());
 
-    $content = '
-<Files "*.json">
-    Order Deny,Allow
-    Deny from all
-</Files>
-<Files "*.php">
-    Order Deny,Allow
-    Deny from all
-</Files>
-<Files "*.html">
-    Order Deny,Allow
-    Deny from all
-</Files>
-<Files "*.tpl">
-    Order Deny,Allow
-    Deny from all
-</Files>';
-
-    writeFile("vendor/.htaccess", $content);
-
-    createHtaccess($dados,$dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
+    createHtaccess($dados, $dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
 }

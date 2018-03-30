@@ -17,6 +17,9 @@ if(file_exists(PATH_HOME . "_config/updates/version.txt")) {
         $version = (float) explode(')', explode("'VERSION', ", $conf)[1])[0];
         $newVersion = $version + 0.01;
         $conf = str_replace("'VERSION', {$version})", "'VERSION', {$newVersion})", $conf);
+        $f = fopen(PATH_HOME . "_config/config.php", "w");
+        fwrite($f, $conf);
+        fclose($f);
         updateVersionTxt();
     }
 

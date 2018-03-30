@@ -116,6 +116,7 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     createParam($dados);
     writeFile("tim.php", file_get_contents("tpl/tim.txt"));
     createDir("entity");
+    writeFile("_config/version.php", file_get_contents("tpl/version.txt"));
     writeFile("_config/create_entity_allow_anonimos.json", '["login"]');
     writeFile("_config/create_entity_not_allow_logged.json", '{"1": ["pessoa"],"2": ["pessoa"],"3": ["pessoa", "login"], "4": ["pessoa", "login"]}');
     writeFile("_config/.htaccess", "Deny from all");

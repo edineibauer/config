@@ -5,13 +5,13 @@ require_once '../vendor/autoload.php';
 
 function updateVersionTxt() {
     $f = fopen(PATH_HOME . "_config/updates/version.txt", "w+");
-    fwrite($f, file_get_contents(PATH_HOME . "vendor/autoload.php"));
+    fwrite($f, file_get_contents(PATH_HOME . "composer.lock"));
     fclose($f);
 }
 
 if(file_exists(PATH_HOME . "_config/updates/version.txt")) {
     $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
-    $actual = file_get_contents(PATH_HOME . "vendor/autoload.php");
+    $actual = file_get_contents(PATH_HOME . "composer.lock");
     if($old !== $actual) {
         $conf = file_get_contents(PATH_HOME . "_config/config.php");
         $version = (float) explode(')', explode("'VERSION', ", $conf)[1])[0];

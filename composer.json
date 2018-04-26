@@ -2,6 +2,8 @@
   "name": "conn/config",
   "description": "Configurações base para novo projeto",
   "license": "MIT",
+  "prefer-stable" : true,
+  "minimum-stability": "dev",
   "authors": [
     {
       "name": "Edinei J. Bauer",

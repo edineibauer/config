@@ -28,7 +28,7 @@ function getValuesServer($dados)
     $dados['logo'] = (!empty($_FILES['logo']['name']) ? 'uploads/site/' . $_FILES['logo']['name'] : "");
     $dados['favicon'] = (!empty($_FILES['favicon']['name']) ? 'uploads/site/' . $_FILES['favicon']['name'] : "");
     $dados['dev'] = $dados['dev'] ?? false;
-    $dados['version'] = 1;
+    $dados['version'] = "1.00";
 
     if (isset($dados['recaptcha'])) {
         if (empty($dados['recaptchasite']) || empty($dados['recaptcha']))

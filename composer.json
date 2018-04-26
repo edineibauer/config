@@ -10,7 +10,7 @@
   ],
   "require": {
     "php": "^7.0",
-    "conn/link-control": "^1",
-    "conn/entity": "^1"
+    "conn/link-control": "dev-master",
+    "conn/entity": "dev-master"
   }
 }

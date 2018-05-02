@@ -61,7 +61,7 @@
                 <h4>Conexão ao Banco</h4>
 
                 <div class="input-field col s12 m6">
-                    <input id="user" name="user" type="text" class="validate">
+                    <input id="user" name="user" type="text" class="validate" value="root">
                     <label for="user">Usuário</label>
                 </div>
                 <div class="input-field col s12 m6">

@@ -23,6 +23,7 @@ function getValuesServer($dados)
     $domain = ($dados['localhost'] ? explode('/', $uri)[1] : $domain);
     $dados['protocol'] = (isset($dados['protocol']) ? 'https://' : 'http://');
     $dados['dominio'] = $domain;
+    $dados['sitesub'] = "";
     $dados['home'] = $dados['protocol'] . ($dados['localhost'] ? 'localhost/' : '') . $dados['dominio'] . "/";
     $dados['path_home'] = ($_SERVER['DOCUMENT_ROOT'] . ($dados['localhost'] ? DIRECTORY_SEPARATOR . $dados['dominio'] : "") . "/");
     $dados['logo'] = (!empty($_FILES['logo']['name']) ? 'uploads/site/' . $_FILES['logo']['name'] : "");

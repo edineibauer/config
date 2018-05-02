@@ -85,63 +85,6 @@
                 </div>
             </div>
 
-            <div class="row clearfix">
-                <br>
-                <h4>Email Mailgun Config</h4>
-                <p><a href="https://www.mailgun.com/" target="_blank">link para mailgun</a></p>
-                <div class="clearfix"><br></div>
-
-                <div class="input-field col s12">
-                    <input id="email" name="email" type="email" class="validate" value="contato@buscaphone.com">
-                    <label for="email">Email</label>
-                </div>
-                <div class="input-field col s12 m6">
-                    <input id="mailgunkey" name="mailgunkey" type="text" class="validate">
-                    <label for="mailgunkey">Key</label>
-                </div>
-
-                <div class="input-field col s12 m6">
-                    <input id="mailgundomain" name="mailgundomain" type="text" class="validate" value="buscaphone.com">
-                    <label for="mailgundomain">Domain</label>
-                </div>
-            </div>
-
-            <div class="row clearfix">
-                <br>
-                <h4>CEP Aberto</h4>
-                <p><a href="http://www.cepaberto.com/api_key" target="_blank">link para cepaberto</a></p>
-                <div class="clearfix"><br></div>
-
-                <div class="input-field col s12 m6">
-                    <input id="cepaberto" name="cepaberto" type="text" class="validate">
-                    <label for="cepaberto">API KEY</label>
-                </div>
-            </div>
-
-            <?php
-            if(file_exists('../session-control')) {
-                ?>
-                <div class="row clearfix">
-                    <br>
-                    <h4>Recaptcha Google Config</h4>
-                    <p><a href="https://www.google.com/recaptcha/admin" target="_blank">link para recaptcha</a></p>
-                    <div class="clearfix"><br></div>
-
-                    <div class="input-field col s12 m6">
-                        <input id="recaptchasite" name="recaptchasite" type="text" class="validate">
-                        <label for="recaptchasite">Recaptcha Site</label>
-                    </div>
-
-                    <div class="input-field col s12 m6">
-                        <input id="recaptcha" name="recaptcha" type="text" class="validate">
-                        <label for="recaptcha">Recaptcha Key</label>
-                    </div>
-
-                </div>
-                <?php
-            }
-            ?>
-
             <p>
                 <input type="checkbox" name="dev" id="dev" checked="checked" />
                 <label for="dev">Dev</label>

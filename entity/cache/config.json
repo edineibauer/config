@@ -77,8 +77,8 @@
   "4": {
     "format": "boolean",
     "type": "tinyint",
-    "nome": "Protocol",
-    "column": "protocol",
+    "nome": "https",
+    "column": "HTTPS",
     "size": "1",
     "key": "",
     "unique": "false",
@@ -100,9 +100,9 @@
     "form": {
       "input": "switch",
       "cols": "12",
-      "colm": "",
-      "coll": "",
-      "class": "",
+      "colm": "6",
+      "coll": "3",
+      "class": "padding-tiny",
       "style": ""
     },
     "value": ""
@@ -133,9 +133,9 @@
     "form": {
       "input": "switch",
       "cols": "12",
-      "colm": "",
-      "coll": "",
-      "class": "",
+      "colm": "6",
+      "coll": "9",
+      "class": "padding-tiny",
       "style": ""
     },
     "value": ""

@@ -62,7 +62,6 @@ function createHtaccess($data, $www = null, $domain = null, $protocol = null)
 
 function createConfig($dados)
 {
-    unset($dados['www']);
     $conf = "<?php\n";
     foreach ($dados as $dado => $value) {
         $value = (is_bool($value) ? ($value ? 'true' : 'false') : "'{$value}'");

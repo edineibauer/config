@@ -22,6 +22,7 @@ function getValuesServer($dados)
     $dados['localhost'] = ($domain === "localhost" ? true : false);
     $domain = ($dados['localhost'] ? explode('/', $uri)[1] : $domain);
     $dados['protocol'] = (isset($dados['protocol']) ? 'https://' : 'http://');
+    $dados['www'] = $dados['www'] ? "www" : "";
     $dados['dominio'] = $domain;
     $dados['sitesub'] = "";
     $dados['home'] = $dados['protocol'] . ($dados['localhost'] ? 'localhost/' : '') . $dados['dominio'] . "/";
@@ -56,7 +57,7 @@ function uploadFiles()
 
 function createHtaccess($data, $www = null, $domain = null, $protocol = null)
 {
-    $dados = "RewriteCond %{HTTP_HOST} ^" . ($www ? "{$domain}\nRewriteRule ^ {$protocol}://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) {$protocol}://%1/$1") . " [L,R=301]";
+    $dados = "RewriteCond %{HTTP_HOST} ^" . ($www === "www" ? "{$domain}\nRewriteRule ^ {$protocol}://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) {$protocol}://%1/$1") . " [L,R=301]";
     writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("tpl/htaccess.txt")));
 }
 

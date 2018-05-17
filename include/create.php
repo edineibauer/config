@@ -123,7 +123,5 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     writeFile("entity/.htaccess", "Deny from all");
     writeFile("vendor/.htaccess", getAccessFile());
 
-
-
     createHtaccess($dados, $dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
 }

@@ -88,6 +88,11 @@ function createParam($dados)
     writeFile("_config/param.json", $data);
 }
 
+function createManifest($dados) {
+    $data = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $dados['favicon'], '#2196f3', '#FFFFFF'], file_get_contents("tpl/manifest.txt"));
+    writeFile("manifest.json", $data);
+}
+
 function getAccessFile()
 {
     return '<Files "*.json">
@@ -115,6 +120,7 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     createConfig($dados);
     createRoute($dados);
     createParam($dados);
+    createManifest($dados);
     writeFile("tim.php", file_get_contents("tpl/tim.txt"));
     createDir("entity");
     writeFile("_config/create_entity_allow_anonimos.json", '["usuarios"]');

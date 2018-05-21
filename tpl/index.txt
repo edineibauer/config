@@ -11,12 +11,9 @@ use LinkControl\Link;
 $link = new Link();
 $view = new Template("link-control");
 
-if(!Check::ajax()){
-    $view->show("header", $link->getParam());
-    require_once $link->getRoute();
-    $view->show("footer", $link->getParam());
-} else {
-    require_once $link->getRoute();
-}
+if(!Check::ajax())
+    $view->show("index", $link->getParam());
+else
+    require_once PATH_HOME . $link->getRoute();
 
 ob_get_flush();

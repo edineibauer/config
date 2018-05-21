@@ -93,6 +93,10 @@ function createManifest($dados) {
     writeFile("manifest.json", $data);
 }
 
+function createServiceWorker() {
+    writeFile("service-worker.js", file_get_contents("tpl/service-worker.txt"));
+}
+
 function getAccessFile()
 {
     return '<Files "*.json">
@@ -121,6 +125,7 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     createRoute($dados);
     createParam($dados);
     createManifest($dados);
+    createServiceWorker();
     writeFile("tim.php", file_get_contents("tpl/tim.txt"));
     createDir("entity");
     writeFile("_config/create_entity_allow_anonimos.json", '["usuarios"]');

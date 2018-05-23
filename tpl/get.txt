@@ -1,0 +1,45 @@
+<?php
+ob_start();
+require_once './_config/config.php';
+require_once './vendor/autoload.php';
+require_once PATH_HOME . "vendor/conn/link-control/tpl/tpls.php";
+
+use LinkControl\Link;
+
+$link = new Link();
+
+$data = ["response" => 1, "error" => "", "data" => ""];
+$library = null;
+$url = "";
+for ($i = 0; $i < count($link->getUrl()); $i++)
+    $url .= (!empty($url) ? "/" : "") . $link->getUrl()[$i];
+
+foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
+    if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/{$url}.php")) {
+        $library = PATH_HOME . "vendor/conn/{$lib}/ajax/{$url}.php";
+        break;
+    }
+}
+
+if (!$library && DEV) {
+    foreach (\Helpers\Helper::listFolder(PATH_HOME . "ajax") as $lib) {
+        if (file_exists(PATH_HOME . "ajax/{$url}.php")) {
+            $library = PATH_HOME . "ajax/{$url}.php";
+            break;
+        }
+    }
+}
+
+if ($library) {
+    include_once $library;
+
+    if (empty($data['data']['title']) && preg_match('/^view\//i', $url) && file_exists(PATH_HOME . (!DEV || $lib !== DOMINIO ? "vendor/conn/{$lib}/" : "") . "param/{$url}.json")) {
+        $file = json_decode(file_get_contents(PATH_HOME . (!DEV || $lib !== DOMINIO ? "vendor/conn/{$lib}/" : "") . "param/{$url}.json"), true);
+
+        if ($file['title'])
+            $data['data']['title'] = $this->prepareTitle($file['title']);
+    }
+}
+echo json_encode($data);
+
+ob_get_flush();

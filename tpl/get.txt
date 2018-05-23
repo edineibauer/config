@@ -4,15 +4,9 @@ require_once './_config/config.php';
 require_once './vendor/autoload.php';
 require_once PATH_HOME . "vendor/conn/link-control/tpl/tpls.php";
 
-use LinkControl\Link;
-
-$link = new Link();
-
 $data = ["response" => 1, "error" => "", "data" => ""];
 $library = null;
-$url = "";
-for ($i = 0; $i < count($link->getUrl()); $i++)
-    $url .= (!empty($url) ? "/" : "") . $link->getUrl()[$i];
+$url = strip_tags(trim(filter_input(INPUT_GET, 'url', FILTER_DEFAULT)));
 
 foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
     if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/{$url}.php")) {

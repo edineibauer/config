@@ -4,6 +4,8 @@ require_once './_config/config.php';
 require_once './vendor/autoload.php';
 require_once PATH_HOME . "vendor/conn/link-control/tpl/tpls.php";
 
+$link = new \LinkControl\Link();
+
 $data = ["response" => 1, "error" => "", "data" => ""];
 $path = null;
 $url = strip_tags(trim(filter_input(INPUT_GET, 'url', FILTER_DEFAULT)));

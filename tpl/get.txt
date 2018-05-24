@@ -30,7 +30,7 @@ if(!$path && preg_match('/view\//i', $url))
 if($path) {
     include_once $path;
 
-    if (empty($data['data']['title'])) {
+    if (empty($data['data']['title']) && $data['response'] === 1) {
         $data['data']['title'] = SITENAME;
         if (preg_match('/\//i', $path)) {
             $t = explode('/', $path);

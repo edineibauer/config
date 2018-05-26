@@ -3,7 +3,8 @@
   "js": [
     "jquery",
     "boot",
-    "panel"
+    "panel",
+    "mustache"
   ],
   "css": [
     "w3",

@@ -35,26 +35,35 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
     console.log('SW Fetch', e.request.url);
 
-    let patt = new RegExp(/\.(((css|js)\?v=)|mst|png|jpg|ico|gif|jpeg|svg)/);
+    let patt = new RegExp(/\.(((css|js)\?v=)|mst|png|jpg|ico|gif|jpeg|svg|ttf)/);
     if (patt.test(e.request.url)) {
         //SHELL GET CACHE OR ONLINE
         e.respondWith(
-            caches.match(e.request).then(function(response) {
+            caches.match(e.request).then(function (response) {
                 return response || fetch(e.request);
             })
         );
     } else {
-        //DATA GET CACHE AND UPDATE CACHE AFTER
+        //DATA - CHECK FOR NEW CONTENT OR GET THE CACHE
         e.respondWith(
             caches.open(dataCache).then(function (cache) {
                 return cache.match(e.request).then(function (response) {
-                    var fetchPromise = fetch(e.request).then(function (networkResponse) {
-                        if(!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic')
-                            return networkResponse;
 
-                        cache.put(e.request, networkResponse.clone());
+                    //update cache
+                    var fetchPromise = fetch(e.request).then(function (networkResponse) {
+                        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic' && response)
+                            cache.put(e.request, networkResponse.clone());
+
                         return networkResponse;
+
+                    }).catch(function (error) {
+                        if(error.toString() === "TypeError: Failed to fetch" && !response) {
+                            return cache.match("request/get/view/404").then(function (response) {
+                                return response;
+                            });
+                        }
                     });
+
                     return response || fetchPromise;
                 })
             })

@@ -1,5 +1,5 @@
-var dataCache = 'swDataConn-v1.0.0';
-var shellCache = 'swShellConn-v1.0.0';
+var dataCache = 'swDataConn-1.0.0';
+var shellCache = 'swShellConn-1.0.0';
 var filesToCache = [];
 var filesToCacheAfter = [];
 

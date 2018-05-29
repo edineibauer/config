@@ -41,12 +41,14 @@ foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $item) {
     }
 }
 
-if (!$config && file_exists(PATH_HOME . "vendor/conn/config/ajax/defecon4.php")) {
-    include_once PATH_HOME . "vendor/conn/config/ajax/defecon4.php";
+if (!$config && file_exists(PATH_HOME . "vendor/conn/config/ajax/inc/defecon4.php")) {
+    include_once PATH_HOME . "vendor/conn/config/ajax/inc/defecon4.php";
+    $data['response'] = 3;
+    $data['data'] = HOME . "dashboard";
 } elseif (!$config) {
     $data['response'] = 3;
     $data['data'] = HOME . "dashboard";
 }
 
-$data['data'] = ob_get_contents();
+$data['data']['content'] = ob_get_contents();
 ob_end_clean();

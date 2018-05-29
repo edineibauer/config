@@ -16,7 +16,7 @@ if (!file_exists('../../../_config')) {
         include_once 'include/form.php';
     }
 } else {
-    if (file_exists('ajax/defecon4.php'))
-        include_once 'ajax/defecon4.php';
+    if (file_exists('ajax/inc/defecon4.php'))
+        include_once 'ajax/inc/defecon4.php';
 }
 ob_end_flush();

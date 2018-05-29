@@ -14,8 +14,6 @@ unlink(PATH_HOME . 'vendor/conn/config/tpl/htaccess.txt');
 unlink(PATH_HOME . 'vendor/conn/config/tpl/index.txt');
 rmdir(PATH_HOME . 'vendor/conn/config/tpl');
 
-unlink(PATH_HOME . 'vendor/conn/config/ajax/defecon4.php');
+unlink(PATH_HOME . 'vendor/conn/config/ajax/inc/defecon4.php');
 
 unlink(PATH_HOME . 'vendor/conn/config/startup.php');
-
-header("Location: " . HOME . "dashboard");

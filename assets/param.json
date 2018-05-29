@@ -5,12 +5,14 @@
     "boot",
     "panel",
     "mustache",
-    "app"
+    "app",
+    "global"
   ],
   "css": [
     "w3",
     "theme",
-    "panel"
+    "panel",
+    "global"
   ],
   "font": [
     "roboto"

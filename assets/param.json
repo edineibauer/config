@@ -4,7 +4,8 @@
     "jquery",
     "boot",
     "panel",
-    "mustache"
+    "mustache",
+    "app"
   ],
   "css": [
     "w3",

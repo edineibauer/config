@@ -129,8 +129,6 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     writeFile("tim.php", file_get_contents("tpl/tim.txt"));
     writeFile("get.php", file_get_contents("tpl/get.txt"));
     createDir("entity");
-    writeFile("_config/create_entity_allow_anonimos.json", '["usuarios"]');
-    writeFile("_config/create_entity_not_allow_logged.json", '{"1": [],"2": [],"3": [], "4": []}');
     writeFile("_config/.htaccess", "Deny from all");
     writeFile("entity/.htaccess", "Deny from all");
     writeFile("vendor/.htaccess", getAccessFile());

@@ -63,6 +63,7 @@ function createHtaccess($data, $www = null, $domain = null, $protocol = null)
 
 function createConfig($dados)
 {
+    $dados['homedev'] = "HOME . (DEV?'':'vendor/conn/{$dados['dominio']}/')";
     $conf = "<?php\n";
     foreach ($dados as $dado => $value) {
         $value = (is_bool($value) ? ($value ? 'true' : 'false') : "'{$value}'");
@@ -128,6 +129,8 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     createServiceWorker();
     writeFile("tim.php", file_get_contents("tpl/tim.txt"));
     writeFile("get.php", file_get_contents("tpl/get.txt"));
+    writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+    writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
     createDir("entity");
     writeFile("_config/.htaccess", "Deny from all");
     writeFile("entity/.htaccess", "Deny from all");

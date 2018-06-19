@@ -132,6 +132,8 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
     writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
     createDir("entity");
+    createDir("entity/general");
+    writeFile("entity/general/general_info.json", "[]");
     writeFile("_config/.htaccess", "Deny from all");
     writeFile("entity/.htaccess", "Deny from all");
     writeFile("vendor/.htaccess", getAccessFile());

@@ -36,6 +36,11 @@ if (!defined('JSON_SUPPORT')) {
 foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $item) {
     if (!file_exists(PATH_HOME . "_config/updates/{$item}.txt") && file_exists(PATH_HOME . "vendor/conn/{$item}/config.php")) {
         require_once PATH_HOME . "vendor/conn/{$item}/config.php";
+
+        $f = fopen(PATH_HOME . "_config/updates/{$item}.txt", "w");
+        fwrite($f, '1');
+        fclose($f);
+
         $config = true;
         break;
     }

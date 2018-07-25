@@ -1,0 +1,31 @@
+<?php
+
+if (!empty($data)) {
+    if (is_string($data) && preg_match('/^http/i', $data)) {
+        $data = [
+            "response" => 3,
+            "error" => "",
+            "data" => $data
+        ];
+    } else {
+        $data = [
+            "response" => 1,
+            "error" => "",
+            "data" => [
+                "title" => "",
+                "descricao" => "",
+                "file" => $route->getFile(),
+                "lib" => $route->getLib(),
+                "content" => $data
+            ]
+        ];
+    }
+} else {
+    $data = [
+        "response" => 1,
+        "error" => "",
+        "data" => ""
+    ];
+}
+
+echo json_encode($data);

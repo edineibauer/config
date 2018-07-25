@@ -128,7 +128,7 @@ if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host'
     createManifest($dados);
     createServiceWorker();
     writeFile("tim.php", file_get_contents("tpl/tim.txt"));
-    writeFile("get.php", file_get_contents("tpl/get.txt"));
+    writeFile("ajax.php", file_get_contents("tpl/ajax.txt"));
     writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
     writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
     createDir("entity");

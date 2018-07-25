@@ -1,23 +1,13 @@
 <?php
 
-if (!empty($data)) {
-    if (is_string($data) && preg_match('/^http/i', $data)) {
-        $data = [
-            "response" => 3,
-            "error" => "",
-            "data" => $data
-        ];
-    } else {
-        $data = [
-            "response" => 1,
-            "error" => "",
-            "data" => [
-                "title" => "",
-                "descricao" => "",
-                "file" => $route->getFile(),
-                "lib" => $route->getLib(),
-                "content" => $data
-            ]
+if (!empty($data) && !empty($data['response'])) {
+    if ($data['response'] === 1) {
+        $data["data"] = [
+            "title" => "",
+            "descricao" => "",
+            "file" => $route->getFile(),
+            "lib" => $route->getLib(),
+            "content" => $data['data']
         ];
     }
 } else {

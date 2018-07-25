@@ -21,13 +21,14 @@ if (!Check::ajax()) {
 
 } elseif ($route->getRoute()) {
     //Request
+    $data = ["response" => 1, "error" => "", "data" => ""];
     include_once $route->getRoute();
     include_once 'ajax.php';
 
 } else {
 
     //Request não encontrado
-    echo json_encode(["response" => 2, "error" => "Rota nao encontrada", "data" => ""]);
+    echo json_encode(["response" => 1, "error" => "", "data" => ""]);
 }
 
 ob_get_flush();

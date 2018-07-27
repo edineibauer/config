@@ -3,8 +3,8 @@
 if (!empty($data) && !empty($data['response'])) {
     if ($data['response'] === 1) {
         $data["data"] = [
-            "title" => "",
-            "descricao" => "",
+            "title" => $link->getParam()['title'],
+            "descricao" => $link->getParam()['descricao'],
             "file" => $route->getFile(),
             "lib" => $route->getLib(),
             "content" => $data['data']

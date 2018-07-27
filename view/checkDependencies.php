@@ -54,7 +54,7 @@ if (!$config && file_exists(PATH_HOME . "vendor/conn/config/ajax/inc/defecon4.ph
     $data['response'] = 3;
     $data['data'] = HOME . "dashboard";
 } else {
-    $data['data']['content'] = ob_get_contents();
+    $data['data'] = ob_get_contents();
 }
 
 ob_end_clean();

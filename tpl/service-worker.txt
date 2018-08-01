@@ -37,7 +37,7 @@ self.addEventListener('fetch', function (e) {
 
     let patt = new RegExp(/\.(((css|js)\?v=)|mst|png|jpg|ico|gif|jpeg|svg|ttf)/);
     let viewPatt = new RegExp(/view\/.+/);
-    let pagePatt = new RegExp(/(view|dobra)\/.+/);
+    let pagePatt = new RegExp(/(view|data)\/.+/);
     if (patt.test(e.request.url)) {
         //SHELL GET CACHE OR ONLINE
         e.respondWith(
@@ -61,7 +61,7 @@ self.addEventListener('fetch', function (e) {
                     }).catch(function (error) {
                         if(error.toString() === "TypeError: Failed to fetch" && !response) {
                             if(pagePatt.test(e.request.url)) {
-                                return cache.match("request/get/view/" + (viewPatt.test(e.request.url) ? "network" : "blank")).then(function (response) {
+                                return cache.match("get/" + (viewPatt.test(e.request.url) ? "network" : "blank")).then(function (response) {
                                     return response;
                                 });
                             } else {

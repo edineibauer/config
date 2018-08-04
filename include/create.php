@@ -72,6 +72,7 @@ function createConfig($dados)
     }
 
     createDir("_config");
+    createDir("_config/updates");
     writeFile("_config/config.php", $conf);
 }
 

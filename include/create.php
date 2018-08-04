@@ -64,7 +64,7 @@ function createHtaccess($data, $www = null, $domain = null, $protocol = null)
 function createConfig($dados)
 {
     $dados['homedev'] = $dados['home'] . (DEV ? '' : "vendor/conn/{$dados['dominio']}/");
-    $dados['vendor'] = "vendor/conn";
+    $dados['vendor'] = "vendor/conn/";
     $conf = "<?php\n";
     foreach ($dados as $dado => $value) {
         $value = (is_bool($value) ? ($value ? 'true' : 'false') : "'{$value}'");

@@ -2,6 +2,9 @@ RewriteEngine On
 {$dados}
 
 RewriteRule ^image\/(.*)$ tim.php?src={$home}$1 [L]
+RewriteRule ^get\/(.*)$ get.php?data=$1 [L]
+RewriteRule ^request\/get\/(.*)$ get.php?data=$1 [L]
+RewriteRule ^request\/post\/?$ set.php?data=$1 [L]
 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d

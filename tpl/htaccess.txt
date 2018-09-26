@@ -3,6 +3,7 @@ RewriteEngine On
 
 RewriteRule ^image\/(.*)$ tim.php?src=$1 [L]
 RewriteRule ^get\/(.*)$ get.php?data=$1 [L]
+RewriteRule ^set\/(.*)$ set.php?data=$1 [L]
 RewriteRule ^request\/get\/view\/(.*)$ get.php?data=$1 [L]
 RewriteRule ^request\/get\/(.*)$ get.php?data=$1 [L]
 RewriteRule ^request\/post\/?$ set.php?data=$1 [L]

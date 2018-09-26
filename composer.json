@@ -2,8 +2,6 @@
   "name": "conn/config",
   "description": "Configurações base para novo projeto",
   "license": "MIT",
-  "prefer-stable" : true,
-  "minimum-stability": "dev",
   "authors": [
     {
       "name": "Edinei J. Bauer",
@@ -11,8 +9,8 @@
     }
   ],
   "require": {
-    "php": "^7.0",
-    "conn/link-control": "dev-master",
-    "conn/entity": "dev-master"
+    "php": "^7.2",
+    "conn/link-control": "1.5.*",
+    "conn/entity": "1.9.*"
   }
 }

@@ -1,5 +1,11 @@
 <?php
-function createDir($dir)
+
+/**
+ * Cria Diretório
+ * @param string $dir
+ * @return string
+ */
+function createDir(string $dir)
 {
     if (!file_exists("../../../{$dir}"))
         mkdir("../../../{$dir}", 0777);
@@ -7,97 +13,110 @@ function createDir($dir)
     return "../../../{$dir}";
 }
 
-function writeFile($file, $content)
+/**
+ * Cria Arquivo
+ * @param string $file
+ * @param string $content
+ */
+function writeFile(string $file, string $content)
 {
     $fp = fopen("../../../{$file}", "w+");
     fwrite($fp, $content);
     fclose($fp);
 }
 
-function getValuesServer($dados)
+/**
+ * @param array $dados
+ * @return array
+ */
+function getServerConstants(array $dados)
 {
-    $uri = $_SERVER['REQUEST_URI'];
-    $domain = $_SERVER['SERVER_NAME'];
+    $localhost = ($_SERVER['SERVER_NAME'] === "localhost" ? true : false);
 
-    $dados['localhost'] = ($domain === "localhost" ? true : false);
-    $domain = ($dados['localhost'] ? explode('/', $uri)[1] : $domain);
-    $dados['protocol'] = (isset($dados['protocol']) ? 'https://' : 'http://');
-    $dados['www'] = $dados['www'] ? "www" : "";
-    $dados['dominio'] = $domain;
     $dados['sitesub'] = "";
-    $dados['home'] = $dados['protocol'] . ($dados['localhost'] ? 'localhost/' : '') . $dados['dominio'] . "/";
-    $dados['path_home'] = ($_SERVER['DOCUMENT_ROOT'] . ($dados['localhost'] ? DIRECTORY_SEPARATOR . $dados['dominio'] : "") . "/");
+    $dados['dominio'] = ($localhost ? "localhost" . (in_array($_SERVER['SERVER_PORT'], ["80", "8080"]) ? explode('/', $_SERVER['REQUEST_URI'])[1] : $localhost ? ":{$_SERVER['SERVER_PORT']}" : "") : $_SERVER['SERVER_NAME']);
+    $dados['ssl'] = isset($dados['protocol']) && $dados['protocol'];
+    $dados['www'] = isset($dados['www']) && $dados['www'];
+    $dados['home'] = "http" . ($dados['ssl'] ? "s" : "") . "://" . (!empty($dados['dominio']) ? $dados['dominio'] . "/" : "");
+    $dados['path_home'] = $_SERVER['DOCUMENT_ROOT'] . "/";
     $dados['logo'] = (!empty($_FILES['logo']['name']) ? 'uploads/site/' . $_FILES['logo']['name'] : "");
-    $dados['favicon'] = (!empty($_FILES['favicon']['name']) ? 'uploads/site/' . $_FILES['favicon']['name'] : "");
-    $dados['dev'] = $dados['dev'] ?? false;
+    $dados['favicon'] = 'uploads/site/' . $_FILES['favicon']['name'];
+    $dados['vendor'] = "vendor/single/";
     $dados['version'] = "1.00";
-
-    if (isset($dados['recaptcha'])) {
-        if (empty($dados['recaptchasite']) || empty($dados['recaptcha']))
-            unset($dados['recaptchasite'], $dados['recaptcha']);
-    }
-
-    if (empty($dados['email']) || empty($dados['mailgundomain']) || empty($dados['mailgunkey']))
-        unset($dados['email'], $dados['mailgundomain'], $dados['mailgunkey']);
 
     return $dados;
 }
 
+/**
+ * Realiza uploads da logo e favicon
+ */
 function uploadFiles()
 {
-    createDir("uploads");
-    $uploaddir = createDir("uploads/site");
-
     if (!empty($_FILES['logo']['name']) && preg_match('/^image\//i', $_FILES['logo']['type']))
-        move_uploaded_file($_FILES['logo']['tmp_name'], $uploaddir . DIRECTORY_SEPARATOR . basename($_FILES['logo']['name']));
+        move_uploaded_file($_FILES['logo']['tmp_name'], "../../../uploads/site/" . basename($_FILES['logo']['name']));
 
-    if (!empty($_FILES['favicon']['name']) && preg_match('/^image\//i', $_FILES['favicon']['type']))
-        move_uploaded_file($_FILES['favicon']['tmp_name'], $uploaddir . DIRECTORY_SEPARATOR . basename($_FILES['favicon']['name']));
+    if (preg_match('/^image\//i', $_FILES['favicon']['type']))
+        move_uploaded_file($_FILES['favicon']['tmp_name'], "../../../uploads/site/" . basename($_FILES['favicon']['name']));
 }
 
-function createHtaccess($data, $www = null, $domain = null, $protocol = null)
+/**
+ * Criar Arquivo de Configurações
+ * @param array $dados
+ */
+function createConfig(array $dados)
 {
-    $dados = "RewriteCond %{HTTP_HOST} ^" . ($www === "www" ? "{$domain}\nRewriteRule ^ {$protocol}://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) {$protocol}://%1/$1") . " [L,R=301]";
-    writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("tpl/htaccess.txt")));
-}
-
-function createConfig($dados)
-{
-    $dados['homedev'] = $dados['home'] . (DEV ? '' : "vendor/conn/{$dados['dominio']}/");
-    $dados['vendor'] = "vendor/conn/";
     $conf = "<?php\n";
     foreach ($dados as $dado => $value) {
         $value = (is_bool($value) ? ($value ? 'true' : 'false') : "'{$value}'");
-        $conf .= "define('" . strtoupper($dado) . "', {$value});\n";
+        $conf .= "define('" . strtoupper(trim($dado)) . "', {$value});\n";
     }
 
-    createDir("_config");
-    createDir("_config/updates");
     writeFile("_config/config.php", $conf);
 }
 
-function createRoute($dados)
+/**
+ * Cria Arquivo de Rota e adiciona o atual domínio como uma rota alteranativa
+ * @param array $dados
+ */
+function createRoute(array $dados)
 {
-    $data = json_decode(file_get_contents("assets/routes.json"), true);
-    if ($dados['dev'] && !in_array($dados['dominio'], $data))
+    $data = json_decode(file_get_contents("start/tpl/routes.json"), true);
+    if (!empty($dados['dominio']) && !in_array($dados['dominio'], $data))
         $data[] = $dados['dominio'];
 
     writeFile("_config/route.json", json_encode($data));
 }
 
-function createParam($dados)
+/**
+ * Cria Arquivo de Parâmetros Padrões do Sistema Singular
+ * @param array $dados
+ */
+function createParam(array $dados)
 {
-    $data = str_replace('{$sitename}', $dados['sitename'], file_get_contents("assets/param.json"));
+    $data = str_replace('{$sitename}', $dados['sitename'], file_get_contents("start/tpl/param.json"));
     writeFile("_config/param.json", $data);
 }
 
-function createManifest($dados) {
-    $data = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $dados['favicon'], '#2196f3', '#FFFFFF'], file_get_contents("tpl/manifest.txt"));
+/**
+ * Cria Arquivo de Manifest e Service Worker para PWA
+ * @param array $dados
+ */
+function createManifest(array $dados) {
+    $data = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $dados['favicon'], '#2196f3', '#FFFFFF'], file_get_contents("start/tpl/manifest.txt"));
     writeFile("manifest.json", $data);
+    writeFile("service-worker.js", file_get_contents("start/tpl/service-worker.txt"));
 }
 
-function createServiceWorker() {
-    writeFile("service-worker.js", file_get_contents("tpl/service-worker.txt"));
+/**
+ * @param array $data
+ * @param string $domain
+ * @param string $www
+ * @param string $protocol
+ */
+function createHtaccess(array $data, string $domain, string $www, string $protocol)
+{
+    $dados = "RewriteCond %{HTTP_HOST} ^" . ($www ? "{$domain}\nRewriteRule ^ http" . ($protocol ? "s" : "") . "://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) http" . ($protocol ? "s" : "") . "://%1/$1") . " [L,R=301]";
+    writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("start/tpl/htaccess.txt")));
 }
 
 function getAccessFile()
@@ -120,26 +139,39 @@ function getAccessFile()
         </Files>';
 }
 
-if (!empty($dados['sitename']) && !empty($dados['user']) && !empty($dados['host']) && !empty($dados['database']) && !empty($dados['pre'])) {
-    $dados = getValuesServer($dados);
+if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
+    $dados = getServerConstants($dados);
+
+    //Create Dir
+    createDir("entity");
+    createDir("entity/general");
+    createDir("uploads");
+    createDir("uploads/site");
+    createDir("_config");
+    createDir("_cdn");
+
     uploadFiles();
-    writeFile("index.php", file_get_contents("tpl/index.txt"));
     createConfig($dados);
     createRoute($dados);
     createParam($dados);
     createManifest($dados);
-    createServiceWorker();
-    writeFile("tim.php", file_get_contents("tpl/tim.txt"));
-    writeFile("get.php", file_get_contents("tpl/get.txt"));
-    writeFile("set.php", file_get_contents("tpl/set.txt"));
+
+    writeFile("index.php", file_get_contents("start/tpl/index.txt"));
+    writeFile("tim.php", file_get_contents("start/tpl/tim.txt"));
+    writeFile("get.php", file_get_contents("start/tpl/get.txt"));
+    writeFile("set.php", file_get_contents("start/tpl/set.txt"));
     writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
     writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
-    createDir("entity");
-    createDir("entity/general");
     writeFile("entity/general/general_info.json", "[]");
     writeFile("_config/.htaccess", "Deny from all");
+    writeFile("_cdn/.htaccess", "Deny from all");
     writeFile("entity/.htaccess", "Deny from all");
     writeFile("vendor/.htaccess", getAccessFile());
 
-    createHtaccess($dados, $dados['www'] ?? null, $dados['dominio'] ?? null, $dados['protocol'] ?? null);
+    createHtaccess($dados, $dados['dominio'], $dados['www'], $dados['ssl']);
+
+    header("Location: ../../../libsUpdate");
+} else {
+    require_once 'erroForm.php';
+    require_once 'form.php';
 }

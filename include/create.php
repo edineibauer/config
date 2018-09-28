@@ -158,8 +158,8 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
 
     writeFile("index.php", file_get_contents("start/tpl/index.txt"));
     writeFile("tim.php", file_get_contents("start/tpl/tim.txt"));
-    writeFile("get.php", file_get_contents("start/tpl/get.txt"));
-    writeFile("set.php", file_get_contents("start/tpl/set.txt"));
+    writeFile("apiGet.php", file_get_contents("start/tpl/apiGet.txt"));
+    writeFile("apiSet.php", file_get_contents("start/tpl/apiSet.txt"));
     writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
     writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
     writeFile("entity/general/general_info.json", "[]");

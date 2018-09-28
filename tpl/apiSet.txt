@@ -4,7 +4,6 @@ require_once './_config/config.php';
 require_once './vendor/autoload.php';
 
 use LinkControl\Sessao;
-use LinkControl\Route;
 use \Helpers\Check;
 
 /** RESPONSES
@@ -19,16 +18,9 @@ $file = filter_input(INPUT_POST, 'file', FILTER_DEFAULT);
 $lib = filter_input(INPUT_POST, 'lib', FILTER_DEFAULT);
 $data = ["response" => 1, "error" => "", "data" => ""];
 
-if (empty($file) && empty($lib)) {
-    $url = explode('set/', $_SERVER['REQUEST_URI'])[1];
-    $route = new Route($url, 'ajax');
-    if ($route->getRoute())
-        $include = $route->getRoute();
-} else {
+if (!empty($file) && !empty($lib)) {
     $include = PATH_HOME . VENDOR . $lib . "/ajax/" . $file . ".php";
-}
 
-if (isset($include)) {
     new Sessao();
     if (Check::ajax()) {
         include_once $include;

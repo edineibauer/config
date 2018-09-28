@@ -2,11 +2,11 @@ RewriteEngine On
 {$dados}
 
 RewriteRule ^image\/(.*)$ tim.php?src=$1 [L]
-RewriteRule ^get\/(.*)$ get.php?data=$1 [L]
-RewriteRule ^set\/(.*)$ set.php?data=$1 [L]
-RewriteRule ^request\/get\/view\/(.*)$ get.php?data=$1 [L]
-RewriteRule ^request\/get\/(.*)$ get.php?data=$1 [L]
-RewriteRule ^request\/post\/?$ set.php?data=$1 [L]
+RewriteRule ^get\/(.*)$ apiGet.php?data=$1 [L]
+RewriteRule ^set\/?$ apiSet.php [L]
+RewriteRule ^request\/get\/view\/(.*)$ apiGet.php?data=$1 [L]
+RewriteRule ^request\/get\/(.*)$ apiGet.php?data=$1 [L]
+RewriteRule ^request\/post\/?$ apiSet.php [L]
 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d

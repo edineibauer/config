@@ -103,9 +103,9 @@ function createParam(array $dados)
  * @param array $dados
  */
 function createManifest(array $dados) {
-    $data = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $dados['favicon'], '#2196f3', '#FFFFFF'], file_get_contents("start/tpl/manifest.txt"));
+    $data = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $dados['favicon'], '#2196f3', '#FFFFFF'], file_get_contents("tpl/manifest.txt"));
     writeFile("manifest.json", $data);
-    writeFile("service-worker.js", file_get_contents("start/tpl/service-worker.txt"));
+    writeFile("service-worker.js", file_get_contents("tpl/service-worker.txt"));
 }
 
 /**
@@ -117,7 +117,7 @@ function createManifest(array $dados) {
 function createHtaccess(array $data, string $domain, string $www, string $protocol)
 {
     $dados = "RewriteCond %{HTTP_HOST} ^" . ($www ? "{$domain}\nRewriteRule ^ http" . ($protocol ? "s" : "") . "://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) http" . ($protocol ? "s" : "") . "://%1/$1") . " [L,R=301]";
-    writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("start/tpl/htaccess.txt")));
+    writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("tpl/htaccess.txt")));
 }
 
 function getAccessFile()
@@ -157,10 +157,10 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
     createParam($dados);
     createManifest($dados);
 
-    writeFile("index.php", file_get_contents("start/tpl/index.txt"));
-    writeFile("tim.php", file_get_contents("start/tpl/tim.txt"));
-    writeFile("apiGet.php", file_get_contents("start/tpl/apiGet.txt"));
-    writeFile("apiSet.php", file_get_contents("start/tpl/apiSet.txt"));
+    writeFile("index.php", file_get_contents("tpl/index.txt"));
+    writeFile("tim.php", file_get_contents("tpl/tim.txt"));
+    writeFile("apiGet.php", file_get_contents("tpl/apiGet.txt"));
+    writeFile("apiSet.php", file_get_contents("tpl/apiSet.txt"));
     writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
     writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
     writeFile("entity/general/general_info.json", "[]");

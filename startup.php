@@ -5,8 +5,6 @@ if (!file_exists('../../../_config')) {
     if ($dados) {
         include_once 'include/create.php';
 
-        header("Location: ../../../checkDependencies");
-
     } else {
         $domain = $_SERVER['SERVER_NAME'];
         $domain = ($domain === "localhost" ? explode('/', $_SERVER['REQUEST_URI'])[1] : $domain);
@@ -15,8 +13,5 @@ if (!file_exists('../../../_config')) {
 
         include_once 'include/form.php';
     }
-} else {
-    if (file_exists('ajax/inc/defecon4.php'))
-        include_once 'ajax/inc/defecon4.php';
 }
 ob_end_flush();

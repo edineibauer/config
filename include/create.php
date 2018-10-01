@@ -41,7 +41,7 @@ function getServerConstants(array $dados)
     $dados['path_home'] = $_SERVER['DOCUMENT_ROOT'] . "/";
     $dados['logo'] = (!empty($_FILES['logo']['name']) ? 'uploads/site/' . $_FILES['logo']['name'] : "");
     $dados['favicon'] = 'uploads/site/' . $_FILES['favicon']['name'];
-    $dados['vendor'] = "vendor/single/";
+    $dados['vendor'] = "vendor/conn/";
     $dados['version'] = "1.00";
 
     return $dados;

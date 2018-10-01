@@ -179,8 +179,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
 
     createHtaccess($dados, $dados['dominio'], $dados['www'], $dados['ssl']);
 
-    header("Location: ../../../libsUpdate");
+    header("Location: ../../../");
 } else {
-    require_once 'erroForm.php';
     require_once 'form.php';
 }

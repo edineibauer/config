@@ -211,7 +211,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
 
         createHtaccess($dados, $dados['dominio'], $dados['www'], $dados['ssl']);
 
-        header("Location: ../../../");
+        header("Location: ../../../updateSistem");
     } else {
         echo "<h3 class='container' style='text-align:center;padding-top:30px;color:red'>Erro ao se Comunicar com o Banco de Dados</h3>";
         require_once 'form.php';

@@ -11,6 +11,7 @@
   "require": {
     "php": "^7.2",
     "conn/link-control": "1.5.*",
-    "conn/entity": "1.9.*"
+    "conn/entity": "1.9.*",
+    "ext-json": "*"
   }
 }

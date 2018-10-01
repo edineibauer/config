@@ -1,0 +1,24 @@
+{
+  "title": "{$sitename}",
+  "js": [
+    "jquery",
+    "boot",
+    "panel",
+    "mustache",
+    "app",
+    "global"
+  ],
+  "css": [
+    "w3",
+    "theme",
+    "panel",
+    "app",
+    "global"
+  ],
+  "font": [
+    "roboto"
+  ],
+  "icon": [
+    "material"
+  ]
+}

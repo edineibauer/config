@@ -80,7 +80,7 @@ function createConfig(array $dados)
  */
 function createRoute(array $dados)
 {
-    $data = json_decode(file_get_contents("tpl/routes.json"), true);
+    $data = json_decode(file_get_contents("tpl/route.json"), true);
     if (!empty($dados['dominio']) && !in_array($dados['dominio'], $data))
         $data[] = $dados['dominio'];
 

@@ -71,13 +71,16 @@ abstract class Conn
                 $dsn = 'mysql:host=' . self::$host . ';dbname=' . self::$database;
                 $options = [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'];
                 self::$connect = new \PDO($dsn, self::$user, self::$pass, $options);
+
+                self::$connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             endif;
+
+            return self::$connect;
         } catch (\PDOException $e) {
             self::error("<b>Erro ao se conectar ao Banco</b><br><br> #Linha: {$e->getLine()}<br> {$e->getMessage()}", $e->getCode());
         }
 
-        self::$connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        return self::$connect;
+        return null;
     }
 
     /** Retorna um objeto PDO Singleton Pattern. */

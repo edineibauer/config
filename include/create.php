@@ -32,7 +32,6 @@ function writeFile(string $file, string $content)
 function getServerConstants(array $dados)
 {
     $localhost = ($_SERVER['SERVER_NAME'] === "localhost" ? true : false);
-
     $porta = $_SERVER['SERVER_PORT'];
 
     $dados['sitesub'] = "";
@@ -45,8 +44,39 @@ function getServerConstants(array $dados)
     $dados['favicon'] = 'uploads/site/' . $_FILES['favicon']['name'];
     $dados['vendor'] = "vendor/conn/";
     $dados['version'] = "1.00";
+    $dados['json_support'] = checkJsonSupport();
 
     return $dados;
+}
+
+function requireConnectionDatabase($dados)
+{
+    define('HOST', $dados['host']);
+    define('USER', $dados['user']);
+    define('PASS', $dados['pass']);
+    define('DATABASE', $dados['database']);
+
+    include_once 'Conn.php';
+    include_once 'TesteConnection.php';
+
+    $test = new TesteConnection();
+    if ($test->getResult()) {
+        return false;
+    } else {
+        include_once 'SqlCommand.php';
+        return true;
+    }
+}
+
+function checkJsonSupport()
+{
+    $sql = new SqlCommand();
+    $sql->exeCommand("CREATE TABLE IF NOT EXISTS `testJsonSupport` (`json_test` json DEFAULT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8");
+    $jsonSupport = !$sql->getResult();
+    if ($jsonSupport)
+        $sql->exeCommand("DROP TABLE `testJsonSupport`");
+
+    return $jsonSupport;
 }
 
 /**
@@ -104,7 +134,8 @@ function createParam(array $dados)
  * Cria Arquivo de Manifest e Service Worker para PWA
  * @param array $dados
  */
-function createManifest(array $dados) {
+function createManifest(array $dados)
+{
     $data = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $dados['favicon'], '#2196f3', '#FFFFFF'], file_get_contents("tpl/manifest.txt"));
     writeFile("manifest.json", $data);
     writeFile("service-worker.js", file_get_contents("tpl/service-worker.txt"));
@@ -143,43 +174,48 @@ function getAccessFile()
 }
 
 if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
-    $dados = getServerConstants($dados);
+    if(requireConnectionDatabase($dados)) {
+        $dados = getServerConstants($dados);
 
-    //Create Dir
-    createDir("entity");
-    createDir("entity/general");
-    createDir("uploads");
-    createDir("uploads/site");
-    createDir("_config");
-    createDir("public");
-    createDir("public/view");
-    createDir("public/ajax");
-    createDir("public/param");
-    createDir("public/assets");
-    createDir("public/dash");
-    createDir("public/tpl");
+        //Create Dir
+        createDir("entity");
+        createDir("entity/general");
+        createDir("uploads");
+        createDir("uploads/site");
+        createDir("_config");
+        createDir("public");
+        createDir("public/view");
+        createDir("public/ajax");
+        createDir("public/param");
+        createDir("public/assets");
+        createDir("public/dash");
+        createDir("public/tpl");
 
-    uploadFiles();
-    createConfig($dados);
-    createRoute($dados);
-    createParam($dados);
-    createManifest($dados);
+        uploadFiles();
+        createConfig($dados);
+        createRoute($dados);
+        createParam($dados);
+        createManifest($dados);
 
-    writeFile("index.php", file_get_contents("tpl/index.txt"));
-    writeFile("tim.php", file_get_contents("tpl/tim.txt"));
-    writeFile("apiGet.php", file_get_contents("tpl/apiGet.txt"));
-    writeFile("apiSet.php", file_get_contents("tpl/apiSet.txt"));
-    writeFile("public/view/index.php", file_get_contents("tpl/viewIndex.txt"));
-    writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
-    writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
-    writeFile("entity/general/general_info.json", "[]");
-    writeFile("_config/.htaccess", "Deny from all");
-    writeFile("entity/.htaccess", "Deny from all");
-    writeFile("vendor/.htaccess", getAccessFile());
+        writeFile("index.php", file_get_contents("tpl/index.txt"));
+        writeFile("tim.php", file_get_contents("tpl/tim.txt"));
+        writeFile("apiGet.php", file_get_contents("tpl/apiGet.txt"));
+        writeFile("apiSet.php", file_get_contents("tpl/apiSet.txt"));
+        writeFile("public/view/index.php", file_get_contents("tpl/viewIndex.txt"));
+        writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+        writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+        writeFile("entity/general/general_info.json", "[]");
+        writeFile("_config/.htaccess", "Deny from all");
+        writeFile("entity/.htaccess", "Deny from all");
+        writeFile("vendor/.htaccess", getAccessFile());
 
-    createHtaccess($dados, $dados['dominio'], $dados['www'], $dados['ssl']);
+        createHtaccess($dados, $dados['dominio'], $dados['www'], $dados['ssl']);
 
-    header("Location: ../../../");
+        header("Location: ../../../");
+    } else {
+        echo "<h3 class='container' style='text-align:center;padding-top:30px'>Erro ao se Conectar ao Banco de Dados</h3>";
+        require_once 'form.php';
+    }
 } else {
     require_once 'form.php';
 }

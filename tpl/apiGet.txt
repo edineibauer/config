@@ -1,5 +1,6 @@
 <?php
-ob_start();
+header('Access-Control-Allow-Origin: *');
+
 require_once './_config/config.php';
 require_once './vendor/autoload.php';
 
@@ -15,21 +16,38 @@ use LinkControl\Link;
  * outro -> não faz nada
  * */
 
-$url = explode('get/', $_SERVER['REQUEST_URI']);
-$data = ["response" => 1, "error" => "", "data" => ""];
-if (!empty($url[1])) {
+$url = strip_tags(trim($_GET['data']));
+if (!empty($url)) {
     new Sessao();
-    $route = new Route($url[1]);
+    $route = new Route($url);
+
 
     if ($route->getRoute()) {
-        include_once $route->getRoute();
 
-        $home = HOME;
+        ob_start();
 
-        if (!isset($data) || !isset($data['response']) || !in_array($data['response'], [1, 2, 3, 4])) {
-            $data = ["response" => 2, "error" => "data retornada não formatada corretamente", "data" => ""];
+        try {
+            include_once $route->getRoute();
 
-        } elseif ($data['response'] === 1) {
+            if (isset($data['error'])) {
+                $data["response"] = 2;
+                $data["data"] = "";
+            } elseif (!isset($data['data'])) {
+                $data = ["response" => 1, "error" => "", "data" => ob_get_contents()];
+            } elseif (!isset($data['response'])) {
+                $data['response'] = 1;
+                $data['error'] = "";
+            }
+
+            if(preg_match('/^http/i', $data['data']))
+                $data = ["response" => 3, "error" => "", "data" => $data['data']];
+
+        } catch (Exception $e) {
+            $data = ["response" => 2, "error" => "Erro na resposta do Servidor", "data" => ""];
+        }
+
+        ob_end_clean();
+        if ($data['response'] === 1) {
             $link = new Link($route->getLib(), $route->getFile(), $route->getVar());
             $data["data"] = [
                 "title" => $link->getParam()['title'],
@@ -48,12 +66,10 @@ if (!empty($url[1])) {
         $data["response"] = 4;
     }
 
-    if($data['response'] === 4 && preg_match('/^data\/\w+/i', $url[1]))
+    if ($data['response'] === 4 && preg_match('/^data\/\w+/i', $url))
         $data["response"] = 5;
 } else {
     $data["response"] = 4;
 }
 
 echo json_encode($data);
-
-ob_get_flush();

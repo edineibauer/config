@@ -213,9 +213,10 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
 
         header("Location: ../../../");
     } else {
-        echo "<h3 class='container' style='text-align:center;padding-top:30px'>Erro ao se Conectar ao Banco de Dados</h3>";
+        echo "<h3 class='container' style='text-align:center;padding-top:30px;color:red'>Erro ao se Comunicar com o Banco de Dados</h3>";
         require_once 'form.php';
     }
 } else {
+    echo "<h3 class='container' style='text-align:center;padding-top:30px'>Nome e Ícone são obrigatórios</h3>";
     require_once 'form.php';
 }

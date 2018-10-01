@@ -1,4 +1,12 @@
+<?php
 
+$domain = $_SERVER['SERVER_NAME'];
+$domain = ($domain === "localhost" ? explode('/', $_SERVER['REQUEST_URI'])[1] : $domain);
+$table = explode(".", $domain)[0];
+$pre = substr(str_replace(array('a', 'e', 'i', 'o', 'u'), '', $table), 0, 3) . "_";
+
+?>
+<link rel="stylesheet" href="assets/config.css" />
 <div class="row">
     <div class="container">
         <form class="card" method="post" action="" enctype="multipart/form-data"
@@ -7,7 +15,7 @@
             <br>
             <h4>Informações do Projeto</h4>
             <div class="input-field col s12 m6">
-                <input id="sitename" name="sitename" type="text" class="validate">
+                <input id="sitename" name="sitename" type="text" class="validate" required>
                 <label for="sitename">Nome do Projeto</label>
             </div>
             <div class="input-field col s12 m6">
@@ -28,7 +36,7 @@
             <div class="file-field input-field col s12 m6">
                 <div class="btn">
                     <span>Favicon</span>
-                    <input type="file" name="favicon" accept="image/*">
+                    <input type="file" name="favicon" accept="image/*" required>
                 </div>
                 <div class="file-path-wrapper">
                     <input class="file-path validate" type="text">
@@ -84,17 +92,11 @@
                 </div>
             </div>
 
-            <p>
-                <input type="checkbox" name="dev" id="dev" checked="checked" />
-                <label for="dev">Dev</label>
-            </p>
-
             <button type="submit" class="waves-effect waves-light btn">Criar Projeto</button>
 
         </form>
     </div>
 </div>
 
-<link rel="stylesheet" href="assets/config.css" />
 <script src="assets/jquery.js"></script>
 <script src="assets/materialize.min.js"></script>

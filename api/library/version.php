@@ -8,8 +8,7 @@ foreach ($teste['packages'] as $package) {
         $libs[] = ["versao" => $package['version'], "nome" => $package['name']];
 
         //adiciona dependencias para o composer.json
-        if(!in_array($package['name'], $comp['require']))
-            $comp['require'][$package['name']] = $package['version'];
+        $comp['require'][$package['name']] = $package['version'];
     }
 }
 

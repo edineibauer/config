@@ -186,6 +186,9 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         createDir("public");
         createDir("public/view");
         createDir("public/ajax");
+        createDir("public/api");
+        createDir("public/react");
+        createDir("public/react/function");
         createDir("public/param");
         createDir("public/assets");
         createDir("public/dash");
@@ -201,12 +204,15 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         writeFile("tim.php", file_get_contents("tpl/tim.txt"));
         writeFile("apiGet.php", file_get_contents("tpl/apiGet.txt"));
         writeFile("apiSet.php", file_get_contents("tpl/apiSet.txt"));
+        writeFile("apiRequest.php", file_get_contents("tpl/apiRequest.txt"));
         writeFile("public/view/index.php", file_get_contents("tpl/viewIndex.txt"));
         writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
         writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
         writeFile("entity/general/general_info.json", "[]");
         writeFile("_config/.htaccess", "Deny from all");
         writeFile("entity/.htaccess", "Deny from all");
+        writeFile("public/react/.htaccess", "Deny from all");
+        writeFile("public/api/.htaccess", "Deny from all");
         writeFile("vendor/.htaccess", getAccessFile());
 
         createHtaccess($dados, $dados['dominio'], $dados['www'], $dados['ssl']);

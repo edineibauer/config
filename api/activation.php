@@ -11,12 +11,23 @@ if(!defined("KEY") && !empty($key)) {
     fclose($f);
 
     //retorna versão das bibliotecas
+    $comp = json_decode(file_get_contents(PATH_HOME . "composer.json"), true);
     $teste = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true);
     $libs = [];
     foreach ($teste['packages'] as $package) {
-        if (preg_match('/^conn\//i', $package['name']))
+        if (preg_match('/^conn\//i', $package['name'])){
             $libs[] = ["versao" => $package['version'], "nome" => $package['name']];
+
+            //adiciona dependencias para o composer.json
+            if(!in_array($package['name'], $comp['require']))
+                $comp['require'][$package['name']] = $package['version'];
+        }
     }
+
+    //salva composer.json
+    $f = fopen(PATH_HOME . "composer.json", "w");
+    fwrite($f, str_replace('\/', '/', json_encode($comp)));
+    fclose($f);
 
     $data['data'] = json_encode($libs);
 } else {

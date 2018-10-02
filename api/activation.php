@@ -1,10 +1,9 @@
 <?php
-
 if(!defined("KEY") && !empty($key)) {
 
     //Adiciona constante KEY na config
     $config = file_get_contents(PATH_HOME . "_config/config.php");
-    $config = str_replace("<?php", "<?php\ndefine('KEY', '{$key}');\n", $config);
+    $config = str_replace("<?php", "<?php\ndefine('KEY', '{$key}');", $config);
 
     //Salva config
     $f = fopen(PATH_HOME . "_config/config.php", "w");

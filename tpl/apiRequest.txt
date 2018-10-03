@@ -41,7 +41,7 @@ if (isset($_GET['data'])) {
         }
 
         if ($find) {
-            if ((!defined("KEY") && $include === PATH_HOME . VENDOR . "config/api/activation.php") || $key === KEY) {
+            if ((!defined("KEY") && $include === PATH_HOME . VENDOR . "config/api/system/activation.php") || (defined("KEY") && $key === KEY)) {
 
                 include_once $include;
 

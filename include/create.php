@@ -189,6 +189,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         createDir("public/view");
         createDir("public/ajax");
         createDir("public/api");
+        createDir("public/apiPublic");
         createDir("public/react");
         createDir("public/react/function");
         createDir("public/param");
@@ -205,6 +206,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         writeFile("index.php", file_get_contents("tpl/index.txt"));
         writeFile("tim.php", file_get_contents("tpl/tim.txt"));
         writeFile("apiGet.php", file_get_contents("tpl/apiGet.txt"));
+        writeFile("apiGetPublic.php", file_get_contents("tpl/apiGetPublic.txt"));
         writeFile("apiSet.php", file_get_contents("tpl/apiSet.txt"));
         writeFile("apiRequest.php", file_get_contents("tpl/apiRequest.txt"));
         writeFile("public/view/index.php", file_get_contents("tpl/viewIndex.txt"));

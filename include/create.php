@@ -105,6 +105,8 @@ function createConfig(array $dados)
         $conf .= "define('" . strtoupper(trim($dado)) . "', {$value});\n";
     }
 
+    $conf .= "require_once PATH_HOME . 'vendor/autoload.php';\nnew LinkControl\Sessao();";
+
     writeFile("_config/config.php", $conf);
 }
 

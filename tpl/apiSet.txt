@@ -1,9 +1,7 @@
 <?php
 ob_start();
 require_once './_config/config.php';
-require_once './vendor/autoload.php';
 
-use LinkControl\Sessao;
 use \Helpers\Check;
 
 /** RESPONSES
@@ -21,7 +19,6 @@ $data = ["response" => 1, "error" => "", "data" => ""];
 if (!empty($file) && !empty($lib)) {
     $include = PATH_HOME . VENDOR . $lib . "/ajax/" . $file . ".php";
 
-    new Sessao();
     if (Check::ajax()) {
         include_once $include;
 

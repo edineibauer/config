@@ -69,25 +69,6 @@ function uploadFiles()
 }
 
 /**
- * Criar Arquivo de Configurações
- * @param array $dados
- */
-function createConfig(array $dados)
-{
-    Config::writeFile("_config/config.json", json_encode($dados));
-
-    $conf = "<?php\n";
-    foreach ($dados as $dado => $value) {
-        $value = (is_bool($value) ? ($value ? 'true' : 'false') : "'{$value}'");
-        $conf .= "define('" . strtoupper(trim($dado)) . "', {$value});\n";
-    }
-
-    $conf .= "\nrequire_once PATH_HOME . 'vendor/autoload.php';\nnew LinkControl\Sessao();";
-
-    Config::writeFile("_config/config.php", $conf);
-}
-
-/**
  * Cria Arquivo de Rota e adiciona o atual domínio como uma rota alteranativa
  * @param array $dados
  */
@@ -169,7 +150,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         copy('assets/dino.png', "../../../assetsPublic/img/dino.png");
 
         uploadFiles();
-        createConfig($dados);
+        Config::createConfig($dados);
         createRoute($dados);
         createParam($dados);
 

@@ -5,11 +5,15 @@ class Config
 
     /**
      * Gera arquivo de configurações
+     * @param array $dados
      */
-    public static function createConfig()
+    public static function createConfig(array $dados = [])
     {
         $path = defined("PATH_HOME") ? PATH_HOME : "../../../";
-        $dados = json_decode(file_get_contents($path . "_config/config.json"), true);
+        if(empty($dados))
+            $dados = json_decode(file_get_contents($path . "_config/config.json"), true);
+        else
+            self::writeFile("_config/config.json", json_encode($dados));
 
         $conf = "<?php\n";
         foreach ($dados as $dado => $value) {

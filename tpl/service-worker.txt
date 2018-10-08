@@ -54,9 +54,37 @@ self.addEventListener('fetch', function (e) {
 
         //consulta o cache apenas
         console.log('cache');
+
         e.respondWith(
             caches.open(cacheShell).then(function (cache) {
-                return cache.match(e.request);
+                return cache.match(e.request).then(function (response) {
+                    if(!response) {
+
+                        //não possui cache, request online
+                        return fetch(e.request).then(function (networkResponse) {
+
+                            //se online estiver ok, armazena no cache
+                            if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic')
+                                cache.put(e.request, networkResponse.clone());
+
+                            //retorna online asset para fetch
+                            return networkResponse;
+
+                        }).catch(function (error) {
+
+                            //se online tiver errro e cache não existir
+                            if (error.toString() === "TypeError: Failed to fetch") {
+
+                                //retorna erro de conexão ao fetch
+                                return cache.match("get/blank").then(function (response) {
+                                    return response;
+                                });
+                            }
+                        });
+                    } else {
+                        return response;
+                    }
+                });
             })
         );
 

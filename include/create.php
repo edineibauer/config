@@ -136,16 +136,6 @@ function createParam(array $dados)
 }
 
 /**
- * Cria Arquivo de Manifest e Service Worker para PWA
- * @param array $dados
- */
-function createManifest(array $dados)
-{
-    $data = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $dados['favicon'], '#2196f3', '#FFFFFF'], file_get_contents("tpl/manifest.txt"));
-    writeFile("manifest.json", $data);
-}
-
-/**
  * @param array $data
  * @param string $domain
  * @param string $www
@@ -206,7 +196,6 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         createConfig($dados);
         createRoute($dados);
         createParam($dados);
-        createManifest($dados);
 
         writeFile("index.php", file_get_contents("tpl/index.txt"));
         writeFile("tim.php", file_get_contents("tpl/tim.txt"));

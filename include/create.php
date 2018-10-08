@@ -140,9 +140,17 @@ function createParam(array $dados)
  */
 function createManifest(array $dados)
 {
+    $dadosService = json_decode(str_replace('{$home}', substr($dados['home'], 0, -1), file_get_contents('tpl/service-worker.json')), true);
+
     $data = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $dados['favicon'], '#2196f3', '#FFFFFF'], file_get_contents("tpl/manifest.txt"));
     writeFile("manifest.json", $data);
-    writeFile("service-worker.js", str_replace('{$home}', $dados['home'], file_get_contents("tpl/service-worker.txt")));
+
+    $content = file_get_contents("tpl/service-worker.txt");
+    $content = str_replace("var filesShell = [];", "var filesShell = " . json_encode($dadosService['filesShell'], JSON_UNESCAPED_SLASHES) . ";", $content);
+    $content = str_replace("var filesAssets = [];", "var filesAssets = " . json_encode($dadosService['filesAssets'], JSON_UNESCAPED_SLASHES) . ";", $content);
+    $content = str_replace("var filesData = [];", "var filesData = " . json_encode($dadosService['filesData'], JSON_UNESCAPED_SLASHES) . ";", $content);
+
+    writeFile("service-worker.js", $content);
 }
 
 /**

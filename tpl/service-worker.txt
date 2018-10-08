@@ -2,9 +2,9 @@ let cacheShell = 'shell-1.0.0';
 let cacheAssets = 'assets-1.0.0';
 let cacheData = 'data-1.0.0';
 
-let filesShell = ["{$home}/assetsPublic/img/dino.png", "{$home}/assetsPublic/img/favicon.png"];
-let filesAssets = ["{$home}/get/blank"];
-let filesData = ["{$home}", "{$home}/", "{$home}/get/network", "{$home}/get/404", "{$home}/get/index"];
+let filesShell = [];
+let filesAssets = [];
+let filesData = [];
 
 self.addEventListener('install', function(e) {
 

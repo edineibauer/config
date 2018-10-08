@@ -1,0 +1,16 @@
+{
+  "filesShell": [
+    "{$home}/assetsPublic/img/dino.png",
+    "{$home}/assetsPublic/img/favicon.png"
+  ],
+  "filesAssets": [
+    "{$home}/get/blank"
+  ],
+  "filesData": [
+    "{$home}",
+    "{$home}/",
+    "{$home}/get/network",
+    "{$home}/get/404",
+    "{$home}/get/index"
+  ]
+}

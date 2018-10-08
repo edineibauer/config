@@ -1,31 +1,6 @@
 <?php
 
 /**
- * Cria Diretório
- * @param string $dir
- * @return string
- */
-function createDir(string $dir)
-{
-    if (!file_exists("../../../{$dir}"))
-        mkdir("../../../{$dir}", 0777);
-
-    return "../../../{$dir}";
-}
-
-/**
- * Cria Arquivo
- * @param string $file
- * @param string $content
- */
-function writeFile(string $file, string $content)
-{
-    $fp = fopen("../../../{$file}", "w+");
-    fwrite($fp, $content);
-    fclose($fp);
-}
-
-/**
  * @param array $dados
  * @return array
  */
@@ -33,7 +8,6 @@ function getServerConstants(array $dados)
 {
     $localhost = ($_SERVER['SERVER_NAME'] === "localhost" ? true : false);
     $porta = $_SERVER['SERVER_PORT'];
-
 
     $dados['sitesub'] = "";
     $dados['dominio'] = ($localhost ? (in_array($porta, ["80", "8080"]) ? explode('/', $_SERVER['REQUEST_URI'])[1] : $porta) : explode('.', $_SERVER['SERVER_NAME'])[0]);
@@ -100,6 +74,8 @@ function uploadFiles()
  */
 function createConfig(array $dados)
 {
+    Config::writeFile("_config/config.json", json_encode($dados));
+
     $conf = "<?php\n";
     foreach ($dados as $dado => $value) {
         $value = (is_bool($value) ? ($value ? 'true' : 'false') : "'{$value}'");
@@ -108,7 +84,7 @@ function createConfig(array $dados)
 
     $conf .= "\nrequire_once PATH_HOME . 'vendor/autoload.php';\nnew LinkControl\Sessao();";
 
-    writeFile("_config/config.php", $conf);
+    Config::writeFile("_config/config.php", $conf);
 }
 
 /**
@@ -121,7 +97,7 @@ function createRoute(array $dados)
     if (!empty($dados['dominio']) && !in_array($dados['dominio'], $data))
         $data[] = $dados['dominio'];
 
-    writeFile("_config/route.json", json_encode($data));
+    Config::writeFile("_config/route.json", json_encode($data));
 }
 
 /**
@@ -132,7 +108,7 @@ function createParam(array $dados)
 {
     $data = json_decode(file_get_contents("tpl/param.json"), true);
     $data['title'] = $dados['sitename'];
-    writeFile("_config/param.json", json_encode($data));
+    Config::writeFile("_config/param.json", json_encode($data));
 }
 
 /**
@@ -144,7 +120,7 @@ function createParam(array $dados)
 function createHtaccess(array $data, string $domain, string $www, string $protocol)
 {
     $dados = "RewriteCond %{HTTP_HOST} ^" . ($www ? "{$domain}\nRewriteRule ^ http" . ($protocol ? "s" : "") . "://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) http" . ($protocol ? "s" : "") . "://%1/$1") . " [L,R=301]";
-    writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("tpl/htaccess.txt")));
+    Config::writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("tpl/htaccess.txt")));
 }
 
 function getAccessFile()
@@ -172,24 +148,24 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         $dados = getServerConstants($dados);
 
         //Create Dir
-        createDir("entity");
-        createDir("entity/general");
-        createDir("uploads");
-        createDir("uploads/site");
-        createDir("_config");
-        createDir("public");
-        createDir("public/view");
-        createDir("public/ajax");
-        createDir("public/api");
-        createDir("public/apiPublic");
-        createDir("public/react");
-        createDir("public/react/function");
-        createDir("public/param");
-        createDir("public/assets");
-        createDir("public/dash");
-        createDir("public/tpl");
-        createDir("assetsPublic");
-        createDir("assetsPublic/img");
+        Config::createDir("entity");
+        Config::createDir("entity/general");
+        Config::createDir("uploads");
+        Config::createDir("uploads/site");
+        Config::createDir("_config");
+        Config::createDir("public");
+        Config::createDir("public/view");
+        Config::createDir("public/ajax");
+        Config::createDir("public/api");
+        Config::createDir("public/apiPublic");
+        Config::createDir("public/react");
+        Config::createDir("public/react/function");
+        Config::createDir("public/param");
+        Config::createDir("public/assets");
+        Config::createDir("public/dash");
+        Config::createDir("public/tpl");
+        Config::createDir("assetsPublic");
+        Config::createDir("assetsPublic/img");
         copy('assets/dino.png', "../../../assetsPublic/img/dino.png");
 
         uploadFiles();
@@ -197,21 +173,21 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         createRoute($dados);
         createParam($dados);
 
-        writeFile("index.php", file_get_contents("tpl/index.txt"));
-        writeFile("tim.php", file_get_contents("tpl/tim.txt"));
-        writeFile("apiGet.php", file_get_contents("tpl/apiGet.txt"));
-        writeFile("apiGetPublic.php", file_get_contents("tpl/apiGetPublic.txt"));
-        writeFile("apiSet.php", file_get_contents("tpl/apiSet.txt"));
-        writeFile("apiRequest.php", file_get_contents("tpl/apiRequest.txt"));
-        writeFile("public/view/index.php", file_get_contents("tpl/viewIndex.txt"));
-        writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
-        writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
-        writeFile("entity/general/general_info.json", "[]");
-        writeFile("_config/.htaccess", "Deny from all");
-        writeFile("entity/.htaccess", "Deny from all");
-        writeFile("public/react/.htaccess", "Deny from all");
-        writeFile("public/api/.htaccess", "Deny from all");
-        writeFile("vendor/.htaccess", getAccessFile());
+        Config::writeFile("index.php", file_get_contents("tpl/index.txt"));
+        Config::writeFile("tim.php", file_get_contents("tpl/tim.txt"));
+        Config::writeFile("apiGet.php", file_get_contents("tpl/apiGet.txt"));
+        Config::writeFile("apiGetPublic.php", file_get_contents("tpl/apiGetPublic.txt"));
+        Config::writeFile("apiSet.php", file_get_contents("tpl/apiSet.txt"));
+        Config::writeFile("apiRequest.php", file_get_contents("tpl/apiRequest.txt"));
+        Config::writeFile("public/view/index.php", file_get_contents("tpl/viewIndex.txt"));
+        Config::writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+        Config::writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+        Config::writeFile("entity/general/general_info.json", "[]");
+        Config::writeFile("_config/.htaccess", "Deny from all");
+        Config::writeFile("entity/.htaccess", "Deny from all");
+        Config::writeFile("public/react/.htaccess", "Deny from all");
+        Config::writeFile("public/api/.htaccess", "Deny from all");
+        Config::writeFile("vendor/.htaccess", getAccessFile());
 
         createHtaccess($dados, $dados['dominio'], $dados['www'], $dados['ssl']);
 

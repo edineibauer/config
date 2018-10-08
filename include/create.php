@@ -142,7 +142,7 @@ function createManifest(array $dados)
 {
     $data = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $dados['favicon'], '#2196f3', '#FFFFFF'], file_get_contents("tpl/manifest.txt"));
     writeFile("manifest.json", $data);
-    writeFile("service-worker.js", file_get_contents("tpl/service-worker.txt"));
+    writeFile("service-worker.js", str_replace('{$home}', $dados['home'], file_get_contents("tpl/service-worker.txt")));
 }
 
 /**

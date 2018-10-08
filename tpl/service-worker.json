@@ -7,7 +7,6 @@
   ],
   "filesData": [
     "{$home}",
-    "{$home}/",
     "{$home}/get/network",
     "{$home}/get/404"
   ]

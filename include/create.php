@@ -170,7 +170,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config::writeFile("public/api/.htaccess", "Deny from all");
         Config::writeFile("vendor/.htaccess", getAccessFile());
 
-        createHtaccess($dados, $dados['dominio'], $dados['www'], $dados['ssl']);
+        Config::createHtaccess($dados['dominio'], $dados['www'], $dados['ssl']);
 
         header("Location: ../../../updateSystem");
     } else {

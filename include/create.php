@@ -206,6 +206,9 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         createDir("public/assets");
         createDir("public/dash");
         createDir("public/tpl");
+        createDir("assetsPublic");
+        createDir("assetsPublic/img");
+        copy('assets/dino.png', "../../../assetsPublic/img/dino.png");
 
         uploadFiles();
         createConfig($dados);

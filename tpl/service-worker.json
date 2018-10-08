@@ -1,7 +1,6 @@
 {
   "filesShell": [
-    "{$home}/assetsPublic/img/dino.png",
-    "{$home}/assetsPublic/img/favicon.png"
+    "{$home}/assetsPublic/img/dino.png"
   ],
   "filesAssets": [
     "{$home}/get/blank"

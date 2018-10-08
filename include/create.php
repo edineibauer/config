@@ -47,6 +47,7 @@ function getServerConstants(array $dados)
     $dados['vendor'] = "vendor/conn/";
     $dados['version'] = "1.00";
     $dados['json_support'] = checkJsonSupport();
+    $dados['repositorio'] = "http://uebster.com/";
 
     return $dados;
 }

@@ -78,7 +78,7 @@ function createRoute(array $dados)
     if (!empty($dados['dominio']) && !in_array($dados['dominio'], $data))
         $data[] = $dados['dominio'];
 
-    Config::writeFile("_config/route.json", json_encode($data));
+    Config\Config::writeFile("_config/route.json", json_encode($data));
 }
 
 /**
@@ -89,7 +89,7 @@ function createParam(array $dados)
 {
     $data = json_decode(file_get_contents("tpl/param.json"), true);
     $data['title'] = $dados['sitename'];
-    Config::writeFile("_config/param.json", json_encode($data));
+    Config\Config::writeFile("_config/param.json", json_encode($data));
 }
 
 /**
@@ -101,7 +101,7 @@ function createParam(array $dados)
 function createHtaccess(array $data, string $domain, string $www, string $protocol)
 {
     $dados = "RewriteCond %{HTTP_HOST} ^" . ($www ? "{$domain}\nRewriteRule ^ http" . ($protocol ? "s" : "") . "://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) http" . ($protocol ? "s" : "") . "://%1/$1") . " [L,R=301]";
-    Config::writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("tpl/htaccess.txt")));
+    Config\Config::writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("tpl/htaccess.txt")));
 }
 
 function getAccessFile()
@@ -128,49 +128,51 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
     if(requireConnectionDatabase($dados)) {
         $dados = getServerConstants($dados);
 
+        include_once 'src/Config/Config.php';
+
         //Create Dir
-        Config::createDir("entity");
-        Config::createDir("entity/general");
-        Config::createDir("uploads");
-        Config::createDir("uploads/site");
-        Config::createDir("_config");
-        Config::createDir("public");
-        Config::createDir("public/view");
-        Config::createDir("public/ajax");
-        Config::createDir("public/api");
-        Config::createDir("public/apiPublic");
-        Config::createDir("public/react");
-        Config::createDir("public/react/function");
-        Config::createDir("public/param");
-        Config::createDir("public/assets");
-        Config::createDir("public/dash");
-        Config::createDir("public/tpl");
-        Config::createDir("assetsPublic");
-        Config::createDir("assetsPublic/img");
+        Config\Config::createDir("entity");
+        Config\Config::createDir("entity/general");
+        Config\Config::createDir("uploads");
+        Config\Config::createDir("uploads/site");
+        Config\Config::createDir("_config");
+        Config\Config::createDir("public");
+        Config\Config::createDir("public/view");
+        Config\Config::createDir("public/ajax");
+        Config\Config::createDir("public/api");
+        Config\Config::createDir("public/apiPublic");
+        Config\Config::createDir("public/react");
+        Config\Config::createDir("public/react/function");
+        Config\Config::createDir("public/param");
+        Config\Config::createDir("public/assets");
+        Config\Config::createDir("public/dash");
+        Config\Config::createDir("public/tpl");
+        Config\Config::createDir("assetsPublic");
+        Config\Config::createDir("assetsPublic/img");
         copy('assets/dino.png', "../../../assetsPublic/img/dino.png");
 
         uploadFiles();
-        Config::createConfig($dados);
+        Config\Config::createConfig($dados);
         createRoute($dados);
         createParam($dados);
 
-        Config::writeFile("index.php", file_get_contents("tpl/index.txt"));
-        Config::writeFile("tim.php", file_get_contents("tpl/tim.txt"));
-        Config::writeFile("apiGet.php", file_get_contents("tpl/apiGet.txt"));
-        Config::writeFile("apiGetPublic.php", file_get_contents("tpl/apiGetPublic.txt"));
-        Config::writeFile("apiSet.php", file_get_contents("tpl/apiSet.txt"));
-        Config::writeFile("apiRequest.php", file_get_contents("tpl/apiRequest.txt"));
-        Config::writeFile("public/view/index.php", file_get_contents("tpl/viewIndex.txt"));
-        Config::writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
-        Config::writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
-        Config::writeFile("entity/general/general_info.json", "[]");
-        Config::writeFile("_config/.htaccess", "Deny from all");
-        Config::writeFile("entity/.htaccess", "Deny from all");
-        Config::writeFile("public/react/.htaccess", "Deny from all");
-        Config::writeFile("public/api/.htaccess", "Deny from all");
-        Config::writeFile("vendor/.htaccess", getAccessFile());
+        Config\Config::writeFile("index.php", file_get_contents("tpl/index.txt"));
+        Config\Config::writeFile("tim.php", file_get_contents("tpl/tim.txt"));
+        Config\Config::writeFile("apiGet.php", file_get_contents("tpl/apiGet.txt"));
+        Config\Config::writeFile("apiGetPublic.php", file_get_contents("tpl/apiGetPublic.txt"));
+        Config\Config::writeFile("apiSet.php", file_get_contents("tpl/apiSet.txt"));
+        Config\Config::writeFile("apiRequest.php", file_get_contents("tpl/apiRequest.txt"));
+        Config\Config::writeFile("public/view/index.php", file_get_contents("tpl/viewIndex.txt"));
+        Config\Config::writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+        Config\Config::writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+        Config\Config::writeFile("entity/general/general_info.json", "[]");
+        Config\Config::writeFile("_config/.htaccess", "Deny from all");
+        Config\Config::writeFile("entity/.htaccess", "Deny from all");
+        Config\Config::writeFile("public/react/.htaccess", "Deny from all");
+        Config\Config::writeFile("public/api/.htaccess", "Deny from all");
+        Config\Config::writeFile("vendor/.htaccess", getAccessFile());
 
-        Config::createHtaccess($dados['dominio'], $dados['www'], $dados['ssl']);
+        Config\Config::createHtaccess($dados['dominio'], $dados['www'], $dados['ssl']);
 
         header("Location: ../../../updateSystem");
     } else {

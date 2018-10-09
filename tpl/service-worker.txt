@@ -46,7 +46,7 @@ self.addEventListener('fetch', function (e) {
     let assets = new RegExp("\.(css|js)$", "i");
     let tpl = new RegExp("\.mst$", "i");
     let metadados = new RegExp("\.json$", "i");
-    let dashboard = new RegExp("\/(dashboard|entidades)", "i");
+    let dashboard = new RegExp("\/(dashboard|entidades|set\/|api\/|app\/)", "i");
     let img = new RegExp("\.(png|jpg|ico|gif|jpeg|svg)$", "i");
 
     if (dashboard.test(url)) {

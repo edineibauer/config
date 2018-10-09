@@ -4,18 +4,9 @@ $data['error'] = "erro";
 
 try {
     //Adiciona constante KEY na config
-    if (defined("KEY")) {
-        $config = file_get_contents(PATH_HOME . "_config/config.php");
-        $config = str_replace("define('KEY', '{$key}')", "define('KEY', '{$newKey}')", $config);
-    } else {
-        $config = file_get_contents(PATH_HOME . "_config/config.php");
-        $config = str_replace("<?php", "<?php\ndefine('KEY', '{$key}');", $config);
-    }
-
-    //Salva config
-    $f = fopen(PATH_HOME . "_config/config.php", "w");
-    fwrite($f, $config);
-    fclose($f);
+    $config = json_decode(file_get_contents(PATH_HOME . "_config/config.json"), true);
+    $config['key'] = $newKey;
+    \Config\Config::createConfig($config);
 
     $data['error'] = "";
 

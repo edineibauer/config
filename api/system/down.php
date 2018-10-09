@@ -4,13 +4,10 @@ $data['error'] = "erro";
 try {
     //Adiciona constante KEY na config
     if (defined("KEY")) {
-        $config = file_get_contents(PATH_HOME . "_config/config.php");
-        $config = str_replace("define('KEY', '{$key}');", "", $config);
+        $config = json_decode(file_get_contents(PATH_HOME . "_config/config.json"), true);
+        unset($config['key']);
 
-        //Salva config
-        $f = fopen(PATH_HOME . "_config/config.php", "w");
-        fwrite($f, $config);
-        fclose($f);
+        \Config\Config::createConfig($config);
     }
 
     //remove composer biblioteca controle fixo
@@ -19,7 +16,7 @@ try {
         foreach ($comp['require'] as $lib => $version) {
             if(preg_match('/^conn\//i', $lib)) {
                 $v = explode('.', $version);
-                $comp['require'][$lib] = $v[0] . '.' . $v[1] . ".*";
+                $comp['require'][$lib] = $v[0] . '.*';
             }
         }
 

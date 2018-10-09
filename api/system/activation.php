@@ -2,15 +2,11 @@
 if(!defined("KEY") && !empty($key)) {
 
     //Adiciona constante KEY na config
-    $config = file_get_contents(PATH_HOME . "_config/config.php");
-    $config = str_replace("<?php", "<?php\ndefine('KEY', '{$key}');", $config);
+    $config = json_decode(file_get_contents(PATH_HOME . "_config/config.json"), true);
+    $config['key'] = $key;
+    \Config\Config::createConfig($config);
 
-    //Salva config
-    $f = fopen(PATH_HOME . "_config/config.php", "w");
-    fwrite($f, $config);
-    fclose($f);
-
-    //retorna versão das bibliotecas
+    //retorna versão das bibliotecas e força o uso de versões fixas
     $comp = json_decode(file_get_contents(PATH_HOME . "composer.json"), true);
     $teste = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true);
     $libs = [];

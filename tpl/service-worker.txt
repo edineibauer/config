@@ -46,11 +46,14 @@ self.addEventListener('fetch', function (e) {
     let assets = new RegExp("(public|vendor)\/w+", "i");
     let tpl = new RegExp("\.mst", "i");
     let metadados = new RegExp("\.json$", "i");
+    let dashboard = new RegExp("dashboard", "i");
     // let pagina = new RegExp("get\/", "i");
     // let data = new RegExp("get\/data\/", "i");
     let img = new RegExp("\.(png|jpg|ico|gif|jpeg|svg)$", "i");
 
-    if (core.test(url)) {
+    if (dashboard.test(url)) {
+        e.respondWith(fetch(e.request));
+    } else if (core.test(url)) {
 
         //consulta o cache apenas
         console.log('cache');

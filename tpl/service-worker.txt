@@ -43,16 +43,15 @@ self.addEventListener('fetch', function (e) {
 
     let url = e.request.url;
     let core = new RegExp("assetsPublic\/", "i");
-    let assets = new RegExp("(public|vendor)\/w+", "i");
-    let tpl = new RegExp("\.mst", "i");
+    let assets = new RegExp("\.(css|js)$", "i");
+    let tpl = new RegExp("\.mst$", "i");
     let metadados = new RegExp("\.json$", "i");
-    let dashboard = new RegExp("dashboard", "i");
-    // let pagina = new RegExp("get\/", "i");
-    // let data = new RegExp("get\/data\/", "i");
+    let dashboard = new RegExp("\/dashboard", "i");
     let img = new RegExp("\.(png|jpg|ico|gif|jpeg|svg)$", "i");
 
     if (dashboard.test(url)) {
         e.respondWith(fetch(e.request));
+
     } else if (core.test(url)) {
 
         //consulta o cache apenas
@@ -61,32 +60,30 @@ self.addEventListener('fetch', function (e) {
         e.respondWith(
             caches.open(cacheShell).then(function (cache) {
                 return cache.match(e.request).then(function (response) {
-                    if(!response) {
-
-                        //não possui cache, request online
-                        return fetch(e.request).then(function (networkResponse) {
-
-                            //se online estiver ok, armazena no cache
-                            if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic')
-                                cache.put(e.request, networkResponse.clone());
-
-                            //retorna online asset para fetch
-                            return networkResponse;
-
-                        }).catch(function (error) {
-
-                            //se online tiver errro e cache não existir
-                            if (error.toString() === "TypeError: Failed to fetch") {
-
-                                //retorna erro de conexão ao fetch
-                                return cache.match("get/blank").then(function (response) {
-                                    return response;
-                                });
-                            }
-                        });
-                    } else {
+                    if(response)
                         return response;
-                    }
+
+                    //não possui cache, request online
+                    return fetch(e.request).then(function (networkResponse) {
+
+                        //se online estiver ok, armazena no cache
+                        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic')
+                            cache.put(e.request, networkResponse.clone());
+
+                        //retorna online asset para fetch
+                        return networkResponse;
+
+                    }).catch(function (error) {
+
+                        //se online tiver errro e cache não existir
+                        if (error.toString() === "TypeError: Failed to fetch") {
+
+                            //retorna erro de conexão ao fetch
+                            return cache.match("get/blank").then(function (response) {
+                                return response;
+                            });
+                        }
+                    });
                 });
             })
         );

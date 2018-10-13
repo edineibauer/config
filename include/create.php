@@ -74,7 +74,7 @@ function uploadFiles()
  */
 function createRoute(array $dados)
 {
-    $data = json_decode(file_get_contents("tpl/route.json"), true);
+    $data = json_decode(file_get_contents("installTemplates/route.json"), true);
     if (!empty($dados['dominio']) && !in_array($dados['dominio'], $data))
         $data[] = $dados['dominio'];
 
@@ -87,7 +87,7 @@ function createRoute(array $dados)
  */
 function createParam(array $dados)
 {
-    $data = json_decode(file_get_contents("tpl/param.json"), true);
+    $data = json_decode(file_get_contents("installTemplates/param.json"), true);
     $data['title'] = $dados['sitename'];
     Config\Config::writeFile("_config/param.json", json_encode($data));
 }
@@ -101,7 +101,7 @@ function createParam(array $dados)
 function createHtaccess(array $data, string $domain, string $www, string $protocol)
 {
     $dados = "RewriteCond %{HTTP_HOST} ^" . ($www ? "{$domain}\nRewriteRule ^ http" . ($protocol ? "s" : "") . "://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) http" . ($protocol ? "s" : "") . "://%1/$1") . " [L,R=301]";
-    Config\Config::writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("tpl/htaccess.txt")));
+    Config\Config::writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("installTemplates/htaccess.txt")));
 }
 
 function getAccessFile()
@@ -156,13 +156,13 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         createRoute($dados);
         createParam($dados);
 
-        Config\Config::writeFile("index.php", file_get_contents("tpl/index.txt"));
-        Config\Config::writeFile("tim.php", file_get_contents("tpl/tim.txt"));
-        Config\Config::writeFile("apiGet.php", file_get_contents("tpl/apiGet.txt"));
-        Config\Config::writeFile("apiGetPublic.php", file_get_contents("tpl/apiGetPublic.txt"));
-        Config\Config::writeFile("apiSet.php", file_get_contents("tpl/apiSet.txt"));
-        Config\Config::writeFile("apiRequest.php", file_get_contents("tpl/apiRequest.txt"));
-        Config\Config::writeFile("public/view/index.php", file_get_contents("tpl/viewIndex.txt"));
+        Config\Config::writeFile("index.php", file_get_contents("installTemplates/index.txt"));
+        Config\Config::writeFile("tim.php", file_get_contents("installTemplates/tim.txt"));
+        Config\Config::writeFile("apiGet.php", file_get_contents("installTemplates/apiGet.txt"));
+        Config\Config::writeFile("apiGetPublic.php", file_get_contents("installTemplates/apiGetPublic.txt"));
+        Config\Config::writeFile("apiSet.php", file_get_contents("installTemplates/apiSet.txt"));
+        Config\Config::writeFile("apiRequest.php", file_get_contents("installTemplates/apiRequest.txt"));
+        Config\Config::writeFile("public/view/index.php", file_get_contents("installTemplates/viewIndex.txt"));
         Config\Config::writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
         Config\Config::writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
         Config\Config::writeFile("entity/general/general_info.json", "[]");

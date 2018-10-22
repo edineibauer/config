@@ -1,21 +1,17 @@
-<div class="theme" id="core-sidebar-header">
-    <div id="core-sidebar-perfil">
+<div class="theme core-class-container" id="core-sidebar-header">
+    <div id="core-sidebar-perfil" class="core-class-container theme-border-l">
         {if $loged}
             {if $login.imagem}
                 <img src="{$home}image/{$login.imagem}&h=100&w=100" height="80" width="80" id="core-sidebar-perfil-img">
             {else}
                 <div id="core-sidebar-perfil-img"><i class="material-icons">people</i></div>
             {/if}
-            <div>
-                {$login.nome}
-            </div>
-            <div>
-                    <span>
-                        {$login.email}
-                    </span>
-                <button id="btn-editLogin" style="margin-top: -13px">
+            <div id="core-sidebar-perfil-name">
+                <div class="core-class-container" id="core-header-name">
+                    {$login.nome}
+                </div>
+                <button class="btn-editLogin core-class-container">
                     <i class="material-icons">edit</i>
-                    <span style="padding-right: 5px">perfil</span>
                 </button>
             </div>
         {else}
@@ -27,10 +23,10 @@
     </div>
 </div>
 
-<div id="core-sidebar-main">
-    <ul id="core-applications"></ul>
+<div id="core-sidebar-main" class="core-class-container">
+    <ul id="core-applications" class="core-class-container"></ul>
 
-    <ul id="core-sidebar-menu">
+    <ul id="core-sidebar-menu" class="core-class-container">
         {$menu}
         {if $loged}
             <li>

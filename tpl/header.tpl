@@ -1,4 +1,4 @@
-<div id="core-header-container">
+<div id="core-header-container" {if !$loged}style="max-width: 1200px;"{/if}>
     <header id="core-header-logo">
         <a href="{$home}">
             {if $logo != "" && $logo != $home}

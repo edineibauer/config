@@ -2,16 +2,19 @@
   "title": "{$sitename}",
   "js": [
     "jquery",
-    "boot",
-    "panel",
+    "hammer",
+    "toast",
     "mustache",
-    "app"
+    "core",
+    "header"
   ],
   "css": [
-    "w3",
+    "normalize",
+    "toast",
+    "cssIcon",
     "theme",
-    "panel",
-    "app"
+    "core",
+    "header"
   ],
   "font": [
     "roboto"

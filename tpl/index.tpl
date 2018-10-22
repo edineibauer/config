@@ -5,17 +5,17 @@
 </head>
 <body>
 
-<div id="header" class="theme">
+<div id="core-header" class="theme">
     {include 'header.tpl'}
 </div>
 
-<aside id="single-sidebar">
+<aside id="core-sidebar">
     {include 'aside.tpl'}
 </aside>
 
 {include 'loading.tpl'}
 
-<section id="single-content"></section>
+<section id="core-content"></section>
 
 {include 'analytics.tpl'}
 

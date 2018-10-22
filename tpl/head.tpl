@@ -14,8 +14,6 @@
 <meta name="msapplication-TileColor" content="#2F3BA2">
 <link rel='stylesheet' href='{$home}assetsPublic/core.min.css?v={$version}'>
 <link rel='stylesheet' href='{$home}assetsPublic/fonts.min.css?v={$version}' type='text/css' media='all'/>
-<link rel='stylesheet' href='{$home}aaaa/core.css?v={$version}'>
-<link rel='stylesheet' href='{$home}aaaa/header.css?v={$version}'>
 
 <style type="text/css" id="core-style"></style>
 <script>
@@ -27,6 +25,3 @@
 </script>
 
 <script src='{$home}assetsPublic/core.min.js?v={$version}' defer></script>
-<script src='{$home}aaaa/core.js?v={$version}' defer></script>
-<script src='{$home}aaaa/header.js?v={$version}' defer></script>
-<script src='{$home}aaaa/utilitarios.js?v={$version}' defer></script>

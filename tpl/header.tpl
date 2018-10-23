@@ -30,9 +30,6 @@
                         <a href="{$home}login" class="theme-text-aux theme-hover-d">login</a>
                     </li>
                 {/if}
-                <li class="hover-theme">
-                    <a href="{$home}bootstrap" class="theme-text-aux theme-hover-d">bootstrap</a>
-                </li>
             </div>
 
             <div id="core-open-menu" class="theme-hover-d">

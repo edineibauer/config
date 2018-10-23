@@ -22,6 +22,7 @@
     const VERSION = {$version};
     const VENDOR = '{$vendor}';
     const ROUTE = '{$url}';
+    const THEME = '{$theme}';
 </script>
 
 <script src='{$home}assetsPublic/core.min.js?v={$version}' defer></script>

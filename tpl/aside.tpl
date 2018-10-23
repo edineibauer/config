@@ -2,7 +2,7 @@
     <div id="core-sidebar-perfil" class="core-class-container theme-border-l">
         {if $loged}
             {if $login.imagem}
-                <img src="{$home}image/{$login.imagem}&h=100&w=120" height="80" width="100" id="core-sidebar-perfil-img">
+                <img src="{$home}image/{$login.imagem}&h=120&w=120" height="80" width="100" id="core-sidebar-perfil-img">
             {else}
                 <div id="core-sidebar-perfil-img"><i class="material-icons">people</i></div>
             {/if}

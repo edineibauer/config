@@ -141,12 +141,14 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::createDir("public/ajax");
         Config\Config::createDir("public/api");
         Config\Config::createDir("public/apiPublic");
+        Config\Config::createDir("public/apiPublic/notification");
         Config\Config::createDir("public/react");
         Config\Config::createDir("public/react/function");
         Config\Config::createDir("public/param");
         Config\Config::createDir("public/assets");
         Config\Config::createDir("public/dash");
         Config\Config::createDir("public/tpl");
+        Config\Config::createDir("public/cron");
         Config\Config::createDir("assetsPublic");
         Config\Config::createDir("assetsPublic/img");
         copy('assets/dino.png', "../../../assetsPublic/img/dino.png");
@@ -163,6 +165,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::writeFile("apiSet.php", file_get_contents("installTemplates/apiSet.txt"));
         Config\Config::writeFile("apiRequest.php", file_get_contents("installTemplates/apiRequest.txt"));
         Config\Config::writeFile("public/view/index.php", file_get_contents("installTemplates/viewIndex.txt"));
+        Config\Config::writeFile("apiCron.php", file_get_contents("installTemplates/cronIndex.txt"));
         Config\Config::writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
         Config\Config::writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
         Config\Config::writeFile("entity/general/general_info.json", "[]");

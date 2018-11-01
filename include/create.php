@@ -20,7 +20,6 @@ function getServerConstants(array $dados)
     $dados['favicon'] = 'uploads/site/' . $_FILES['favicon']['name'];
     $dados['vendor'] = "vendor/conn/";
     $dados['version'] = "1.00";
-    $dados['json_support'] = checkJsonSupport();
     $dados['repositorio'] = "http://uebster.com/";
 
     return $dados;
@@ -37,23 +36,7 @@ function requireConnectionDatabase($dados)
     include_once 'TesteConnection.php';
 
     $test = new TesteConnection();
-    if ($test->getResult()) {
-        return false;
-    } else {
-        include_once 'SqlCommand.php';
-        return true;
-    }
-}
-
-function checkJsonSupport()
-{
-    $sql = new SqlCommand();
-    $sql->exeCommand("CREATE TABLE IF NOT EXISTS `testJsonSupport` (`json_test` json DEFAULT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8");
-    $jsonSupport = !$sql->getResult();
-    if ($jsonSupport)
-        $sql->exeCommand("DROP TABLE `testJsonSupport`");
-
-    return $jsonSupport;
+    return !$test->getResult();
 }
 
 /**

@@ -6,7 +6,7 @@ class TesteConnection extends Conn
     
     public function __construct()
     {
-        $conn = parent::getConn();
+        parent::getConn();
         $this->result = parent::getResult();
     }
 

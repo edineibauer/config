@@ -12,7 +12,7 @@ function readCron(string $base)
     foreach (\Helpers\Helper::listFolder($base) as $item) {
         if (is_dir($base . "/{$item}"))
             readCron($base . "/{$item}");
-        else
+        elseif($item !== "index.php")
             include $base . "/{$item}";
     }
 }

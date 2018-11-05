@@ -148,13 +148,14 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::writeFile("apiSet.php", file_get_contents("installTemplates/apiSet.txt"));
         Config\Config::writeFile("apiRequest.php", file_get_contents("installTemplates/apiRequest.txt"));
         Config\Config::writeFile("public/view/index.php", file_get_contents("installTemplates/viewIndex.txt"));
-        Config\Config::writeFile("apiCron.php", file_get_contents("installTemplates/cronIndex.txt"));
+        Config\Config::writeFile("public/cron/index.php", file_get_contents("installTemplates/cronIndex.txt"));
         Config\Config::writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
         Config\Config::writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
         Config\Config::writeFile("entity/general/general_info.json", "[]");
         Config\Config::writeFile("_config/.htaccess", "Deny from all");
         Config\Config::writeFile("entity/.htaccess", "Deny from all");
         Config\Config::writeFile("public/react/.htaccess", "Deny from all");
+        Config\Config::writeFile("public/cron/.htaccess", "Deny from all");
         Config\Config::writeFile("public/api/.htaccess", "Deny from all");
         Config\Config::writeFile("vendor/.htaccess", getAccessFile());
 

@@ -1,5 +1,7 @@
 <?php
 
+require_once '{$path_home}_config/config.php';
+
 $base = PATH_HOME . "public/cron";
 
 //Tempo para controle de execução

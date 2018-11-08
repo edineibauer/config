@@ -17,7 +17,7 @@ $lib = filter_input(INPUT_POST, 'lib', FILTER_DEFAULT);
 $data = ["response" => 1, "error" => "", "data" => ""];
 
 if (!empty($file) && !empty($lib)) {
-    $include = PATH_HOME . ($lib ===  DOMINIO ? "public/" : VENDOR . $lib) . "/ajax/" . $file . ".php";
+    $include = PATH_HOME . ($lib ===  DOMINIO ? "public" : VENDOR . $lib) . "/ajax/" . $file . ".php";
 
     if (Check::ajax()) {
         include_once $include;

@@ -132,7 +132,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::createDir("public/cron");
         Config\Config::createDir("assetsPublic");
         Config\Config::createDir("assetsPublic/img");
-        copy('assets/dino.png', "../../../assetsPublic/img/dino.png");
+        copy('public/assets/dino.png', "../../../assetsPublic/img/dino.png");
 
         uploadFiles();
         Config\Config::createConfig($dados);

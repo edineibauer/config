@@ -24,8 +24,8 @@ if (isset($_GET['data'])) {
                     $find = true;
                 } else {
                     foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-                        if (file_exists(PATH_HOME . VENDOR . $lib . "/api" . $include . "/{$u}.php")) {
-                            $include = PATH_HOME . VENDOR . $lib . "/api" . $include . "/{$u}.php";
+                        if (file_exists(PATH_HOME . VENDOR . $lib . "/public/api" . $include . "/{$u}.php")) {
+                            $include = PATH_HOME . VENDOR . $lib . "/public/api" . $include . "/{$u}.php";
                             $find = true;
                             break;
                         }
@@ -40,7 +40,7 @@ if (isset($_GET['data'])) {
         }
 
         if ($find) {
-            if ((!defined("KEY") && $include === PATH_HOME . VENDOR . "config/api/system/activation.php") || (defined("KEY") && $key === KEY)) {
+            if ((!defined("KEY") && $include === PATH_HOME . VENDOR . "config/public/api/system/activation.php") || (defined("KEY") && $key === KEY)) {
 
                 include_once $include;
 

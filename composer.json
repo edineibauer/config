@@ -10,13 +10,13 @@
   ],
   "require": {
     "php": "^7.1",
-    "conn/link-control": "1.5.*",
-    "conn/entity": "1.9.*",
+    "conn/link-control": "*",
+    "conn/entity": "*",
     "ext-json": "*"
   },
   "autoload": {
     "psr-0": {
-      "Config": "src/"
+      "Config": "public/src/"
     }
   }
 }

@@ -123,8 +123,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::createDir("public/view");
         Config\Config::createDir("public/ajax");
         Config\Config::createDir("public/api");
-        Config\Config::createDir("public/apiPublic");
-        Config\Config::createDir("public/apiPublic/notification");
+        Config\Config::createDir("public/api/public");
         Config\Config::createDir("public/react");
         Config\Config::createDir("public/param");
         Config\Config::createDir("public/assets");

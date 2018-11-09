@@ -15,13 +15,13 @@ if (isset($_GET['data'])) {
 
     foreach ($url as $i => $u) {
         if (!$find) {
-            if (file_exists(PATH_HOME . "public/apiPublic" . $include . "/{$u}.php")) {
-                $include = PATH_HOME . "public/apiPublic" . $include . "/{$u}.php";
+            if (file_exists(PATH_HOME . "public/api/public" . $include . "/{$u}.php")) {
+                $include = PATH_HOME . "public/api/public" . $include . "/{$u}.php";
                 $find = true;
             } else {
                 foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-                    if (file_exists(PATH_HOME . VENDOR . $lib . "/apiPublic" . $include . "/{$u}.php")) {
-                        $include = PATH_HOME . VENDOR . $lib . "/apiPublic" . $include . "/{$u}.php";
+                    if (file_exists(PATH_HOME . VENDOR . $lib . "/public/api/public" . $include . "/{$u}.php")) {
+                        $include = PATH_HOME . VENDOR . $lib . "/public/api/public" . $include . "/{$u}.php";
                         $find = true;
                         break;
                     }

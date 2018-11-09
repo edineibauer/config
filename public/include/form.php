@@ -6,7 +6,7 @@ $table = explode(".", $domain)[0];
 $pre = substr(str_replace(array('a', 'e', 'i', 'o', 'u'), '', $table), 0, 3) . "_";
 
 ?>
-<link rel="stylesheet" href="assets/config.css" />
+<link rel="stylesheet" href="public/assets/config.css" />
 <div class="row">
     <div class="container">
         <form class="card" method="post" action="" enctype="multipart/form-data"
@@ -98,5 +98,5 @@ $pre = substr(str_replace(array('a', 'e', 'i', 'o', 'u'), '', $table), 0, 3) . "
     </div>
 </div>
 
-<script src="assets/jquery.js"></script>
-<script src="assets/materialize.min.js"></script>
+<script src="public/assets/jquery.js"></script>
+<script src="public/assets/materialize.min.js"></script>

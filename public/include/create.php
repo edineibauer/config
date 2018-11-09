@@ -111,7 +111,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
     if(requireConnectionDatabase($dados)) {
         $dados = getServerConstants($dados);
 
-        include_once 'src/Config/Config.php';
+        include_once 'public/src/Config/Config.php';
 
         //Create Dir
         Config\Config::createDir("entity");

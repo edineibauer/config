@@ -126,7 +126,6 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::createDir("public/apiPublic");
         Config\Config::createDir("public/apiPublic/notification");
         Config\Config::createDir("public/react");
-        Config\Config::createDir("public/react/function");
         Config\Config::createDir("public/param");
         Config\Config::createDir("public/assets");
         Config\Config::createDir("public/dash");

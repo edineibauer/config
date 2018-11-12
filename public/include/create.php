@@ -129,6 +129,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::createDir("public/assets");
         Config\Config::createDir("public/dash");
         Config\Config::createDir("public/tpl");
+        Config\Config::createDir("public/log");
         Config\Config::createDir("public/cron");
         Config\Config::createDir("assetsPublic");
         Config\Config::createDir("assetsPublic/img");
@@ -153,6 +154,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::writeFile("_config/.htaccess", "Deny from all");
         Config\Config::writeFile("entity/.htaccess", "Deny from all");
         Config\Config::writeFile("public/react/.htaccess", "Deny from all");
+        Config\Config::writeFile("public/log/.htaccess", "Deny from all");
         Config\Config::writeFile("public/cron/.htaccess", "Deny from all");
         Config\Config::writeFile("public/api/.htaccess", "Deny from all");
         Config\Config::writeFile("vendor/.htaccess", getAccessFile());

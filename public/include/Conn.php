@@ -8,104 +8,132 @@
  * @copyright (c) 2017, Edinei J. Bauer
  */
 
-abstract class Conn
+class Conn
 {
-    private static $host = HOST ?? null;
-    private static $user = USER ?? null;
-    private static $pass = PASS ?? null;
-    private static $database = DATABASE ?? null;
-
-    /** @var PDO */
-    private static $connect = null;
-    private static $result;
+    private $host;
+    private $user;
+    private $pass;
+    private $database;
+    private $result;
 
     /**
-     * @param string $database
-     */
-    public static function setDatabase(string $database)
-    {
-        self::$connect = null;
-        self::$database = $database;
-    }
-
-    /**
+     * Conn constructor.
      * @param string $host
-     */
-    public static function setHost(string $host)
-    {
-        self::$host = $host;
-    }
-
-    /**
-     * @param string $pass
-     */
-    public static function setPass(string $pass)
-    {
-        self::$pass = $pass;
-    }
-
-    /**
      * @param string $user
+     * @param string $pass
+     * @param string|null $database
      */
-    public static function setUser(string $user)
+    public function __construct(string $host, string $user, string $pass, string $database = null)
     {
-        self::$user = $user;
+        $this->host = $host;
+        $this->user = $user;
+        $this->pass = $pass;
+        $this->database = $database;
     }
 
     /**
-     * @return string
+     * Verifica se credenciais e database Mysql exist
+     * @return bool
      */
-    protected static function getDatabase() :string
-    {
-        return self::$database;
-    }
-
-    /**
-     * Conecta com o banco de dados com o pattern singleton.
-     * Retorna um objeto PDO!
-     */
-    private static function conectar()
+    public function databaseExist(): bool
     {
         try {
-            if (self::$connect == null):
-                $dsn = 'mysql:host=' . self::$host . ';dbname=' . self::$database;
-                $options = [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'];
-                self::$connect = new \PDO($dsn, self::$user, self::$pass, $options);
+            $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->database;
+            $options = [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'];
+            $connect = new \PDO($dsn, $this->user, $this->pass, $options);
+            $connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            return true;
 
-                self::$connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            endif;
-
-            return self::$connect;
         } catch (\PDOException $e) {
-            self::error("<b>Erro ao se conectar ao Banco</b><br><br> #Linha: {$e->getLine()}<br> {$e->getMessage()}", $e->getCode());
+            return false;
         }
-
-        return null;
     }
 
-    /** Retorna um objeto PDO Singleton Pattern. */
-    protected static function getConn()
+    /**
+     * Verifica se credenciais Mysql estão corretas
+     * @return bool
+     */
+    public function credenciais(): bool
     {
-        return self::conectar();
+        try {
+            $dsn = 'mysql:host=' . $this->host . ';';
+            $options = [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'];
+            $connect = new \PDO($dsn, $this->user, $this->pass, $options);
+            $connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            return true;
+
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 
-    protected static function setDefault()
+    /**
+     * Cria a database informada no construtor
+     */
+    public function createDatabase()
     {
-        self::setDatabase(DATABASE ?? null);
-        self::setHost(HOST ?? null);
-        self::setUser(USER ?? null);
-        self::setPass(PASS ?? null);
+        try {
+            $dsn = 'mysql:host=' . $this->host . ';';
+            $options = [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'];
+            $connect = new \PDO($dsn, $this->user, $this->pass, $options);
+            $connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+            $command = $connect->prepare("CREATE DATABASE {$this->database}");
+            $command->execute();
+
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 
-    protected function getResult()
+    /**
+     * Verifica se database esta vazia
+     */
+    public function databaseIsEmpty()
     {
-        return self::$result;
+        try {
+            $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->database;
+            $options = [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'];
+            $connect = new \PDO($dsn, $this->user, $this->pass, $options);
+            $connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+            $command = $connect->prepare("show tables");
+            $command->setFetchMode(\PDO::FETCH_ASSOC);
+            $command->execute();
+            return empty($command->fetchAll());
+
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 
-    protected static function error($ErrMsg, $ErrNo = null)
+    /**
+     * Limpa as tabelas presentes na database
+     */
+    public function clearDatabase()
     {
-        $color = ["blue" => "lightskyblue", "yellow" => "gold", "green" => "steal", "red" => "lightcoral", "orange" => "orange"];
-        $background = ($ErrNo == E_USER_NOTICE ? $color["blue"] : ($ErrNo == E_USER_WARNING ? $color['yellow'] : ($ErrNo == E_USER_ERROR ? $color['red'] : $color['orange'])));
-        self::$result = "<p style='width: 100%;float:left;clear:both; padding:10px 30px; background: {$background}; border-radius: 4px; font-weight: bold; box-shadow: 1px 4px 9px -2px rgba(0, 0, 0, 0.15); text-transform: uppercase; width: auto' >{$ErrMsg}</p>";
+        try {
+            $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->database;
+            $options = [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'];
+            $connect = new \PDO($dsn, $this->user, $this->pass, $options);
+            $connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+            $command = $connect->prepare("show tables");
+            $command->setFetchMode(\PDO::FETCH_ASSOC);
+            $command->execute();
+            $results = $command->fetchAll();
+
+            if(!empty($results)) {
+                foreach ($results as $result) {
+                    foreach ($result as $dba => $table){
+                        $command = $connect->prepare("DROP TABLE IF EXISTS {$table}");
+                        $command->execute();
+                    }
+                }
+            }
+
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 }

@@ -25,18 +25,53 @@ function getServerConstants(array $dados)
     return $dados;
 }
 
-function requireConnectionDatabase($dados)
+/**
+ * Realiza validações de conexão ao banco de dados
+ * @param array $dados
+ * @return bool
+ */
+function requireConnectionDatabase(array $dados): bool
 {
-    define('HOST', $dados['host']);
-    define('USER', $dados['user']);
-    define('PASS', $dados['pass']);
-    define('DATABASE', $dados['database']);
-
     include_once 'Conn.php';
-    include_once 'TesteConnection.php';
 
-    $test = new TesteConnection();
-    return !$test->getResult();
+    $test = new Conn($dados['host'], $dados['user'], $dados['pass'], $dados['database']);
+    if ($test->databaseExist()) {
+        //verifica se database esta vazia ou não
+        if (!$test->databaseIsEmpty()) {
+            //confirma com usuário se deseja apagar banco de dados
+
+            if (isset($_SESSION['removeDatabase'])) {
+                $test->clearDatabase();
+                unset($_SESSION['removeDatabase']);
+                return true;
+
+            } else {
+                echo "<h2 style='text-align:center;padding-top:30px;color:red'>"
+                    . "Atenção! Esta base de dados já possui tabelas definidas!<p>Para continuar, a base de dados deve estar vazia.</p>"
+                    . "</h2>"
+                    . "<p style='text-align:center;padding-top:30px;'>Caso esses dados sejam importantes, faça um backup agora! Ou volte e escolha outra base de dados.</p>"
+                    . "<p>"
+                    . "<h3 style='text-align:center;padding-top:30px;font-weight: normal'>Para usar a Base de Dados <b>'{$dados['database']}'</b> e limpar seus dados. Basta Recarregar esta página!</h3>"
+                    . "</p>";
+
+                $_SESSION['removeDatabase'] = true;
+                die;
+            }
+
+        } else {
+            // tudo certo, continua
+            return true;
+        }
+
+    } elseif ($test->credenciais()) {
+        //create database e prossegue com a instalação
+        $test->createDatabase();
+
+        return true;
+    } else {
+        //credenciais inválidas
+        return false;
+    }
 }
 
 /**
@@ -108,7 +143,12 @@ function getAccessFile()
 }
 
 if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
-    if(requireConnectionDatabase($dados)) {
+
+    session_start();
+    if (requireConnectionDatabase($dados)) {
+        if (isset($_SESSION['userlogin']))
+            unset($_SESSION['userlogin']);
+
         $dados = getServerConstants($dados);
 
         include_once 'public/src/Config/Config.php';
@@ -133,7 +173,8 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::createDir("public/cron");
         Config\Config::createDir("assetsPublic");
         Config\Config::createDir("assetsPublic/img");
-        copy('public/assets/dino.png', "../../../assetsPublic/img/dino.png");
+        copy('public/assets/dino.png', "../../../uploads/site/dino.png");
+        copy('public/assets/image-not-found.png', "../../../uploads/site/image-not-found.png");
 
         uploadFiles();
         Config\Config::createConfig($dados);
@@ -163,10 +204,10 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
 
         header("Location: ../../../dashboardUpdateSystem/force");
     } else {
-        echo "<h3 class='container' style='text-align:center;padding-top:30px;color:red'>Erro ao se Comunicar com o Banco de Dados</h3>";
+        echo "<h3 class='container' style='text-align:center;padding-top:30px;color:red'>Credencias Inválidas! Erro ao se Comunicar com o Banco de Dados</h3>";
         require_once 'form.php';
     }
 } else {
-    echo "<h3 class='container' style='text-align:center;padding-top:30px'>Nome e Ícone são obrigatórios</h3>";
+    echo "<h3 class='container' style='text-align:center;padding-top:30px'>Nome do Site e Ícone são obrigatórios!</h3>";
     require_once 'form.php';
 }

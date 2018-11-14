@@ -788,22 +788,13 @@ function get_document_root($src) {
 
 }
 
-
 /**
  * generic error message
  *
  * @param <type> $errorString
  */
-function display_error($errorString = '') {
-
-    require('./_app/Config.inc.php');
-    header("Location: " . HOME . "/tim.php?src=" . HOME . "/uploads/demo.jpg&w=200&h=200");
-    die;
-
-    header('HTTP/1.1 400 Bad Request');
-    echo '<pre>' . htmlentities($errorString);
-    echo '<br />Query String : ' . htmlentities($_SERVER['QUERY_STRING']);
-    echo '<br />TimThumb version : ' . VERSION . '</pre>';
-    die ();
-
+function display_error($errorString = '')
+{
+    require('./_config/config.php');
+    header("Location: " . HOME . "image/uploads/site/image-not-found.png");
 }

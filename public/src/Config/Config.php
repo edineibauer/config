@@ -56,10 +56,15 @@ class Config
     public static function writeFile(string $url, string $content)
     {
         try {
-            $path = defined("PATH_HOME") ? PATH_HOME : "../../../";
-            $fp = fopen("{$path}{$url}", "w+");
+            if(defined("PATH_HOME") && !preg_match("/^" . preg_quote(PATH_HOME) . "/i", $url))
+                $url = PATH_HOME . (preg_match("/^\//i", $url) ? substr($url, 1) : $url);
+            else
+                $url = "../../../" . $url;
+
+            $fp = fopen($url, "w+");
             fwrite($fp, $content);
             fclose($fp);
+
         } catch (Exception $e) {
 
         }

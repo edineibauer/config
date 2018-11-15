@@ -82,4 +82,55 @@ class Config
 
         return "{$path}{$dir}";
     }
+
+    /**
+     * Retorna lista com entidades que não devem ser exibidas na dashboard
+     */
+    public static function getMenuNotAllow()
+    {
+        $file = [];
+        $permission = json_decode(file_get_contents(PATH_HOME . "_config/menu_not_show.json"), true);
+        if(!empty($_SESSION['userlogin']) && !empty($permission[$_SESSION['userlogin']['setor']]))
+            $file = $permission[$_SESSION['userlogin']['setor']];
+        elseif(empty($_SESSION['userlogin']) && !empty($permission[0]))
+            $file = $permission[0];
+
+        $path = "public/dash/-menu.json";
+        if (!empty($_SESSION['userlogin']))
+            $pathSession = "public/dash/{$_SESSION['userlogin']['setor']}/-menu.json";
+
+        if (file_exists(PATH_HOME . $path))
+            $file = self::addNotShow(PATH_HOME . $path, $file, PATH_HOME);
+
+        if (isset($pathSession) && file_exists(PATH_HOME . $pathSession))
+            $file = self::addNotShow(PATH_HOME . $pathSession, $file, PATH_HOME);
+
+        foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/{$path}"))
+                $file = self::addNotShow(PATH_HOME . VENDOR . "{$lib}/{$path}", $file, PATH_HOME . VENDOR . $lib);
+            if (isset($pathSession) && file_exists(PATH_HOME . VENDOR . "{$lib}/{$pathSession}"))
+                $file = self::addNotShow(PATH_HOME . VENDOR . "{$lib}/{$pathSession}", $file, PATH_HOME . VENDOR . $lib);
+        }
+
+        return $file;
+    }
+
+    /**
+     * @param string $dir
+     * @param array $file
+     * @param string $dirPermission
+     * @return array
+     */
+    private static function addNotShow(string $dir, array $file, string $dirPermission): array
+    {
+        $m = json_decode(file_get_contents($dir), true);
+        if (!empty($m) && is_array($m)) {
+            foreach ($m as $entity) {
+                if (file_exists($dirPermission . "/public/entity/cache/{$entity}.json") && !in_array($entity, $file))
+                    $file[] = $entity;
+            }
+        }
+
+        return $file;
+    }
 }

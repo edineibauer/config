@@ -58,7 +58,7 @@ class Config
         try {
             if(defined("PATH_HOME") && !preg_match("/^" . preg_quote(PATH_HOME, '/') . "/i", $url))
                 $url = PATH_HOME . (preg_match("/^\//i", $url) ? substr($url, 1) : $url);
-            else
+            elseif(!defined("PATH_HOME"))
                 $url = "../../../" . $url;
 
             $fp = fopen($url, "w+");

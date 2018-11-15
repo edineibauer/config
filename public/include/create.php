@@ -191,6 +191,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::writeFile("public/param/index.json", file_get_contents("public/installTemplates/viewIndexParam.txt"));
         Config\Config::writeFile("public/cron/index.php", str_replace('{$path_home}', $dados['path_home'], file_get_contents("public/installTemplates/cronIndex.txt")));
         Config\Config::writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+        Config\Config::writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
         Config\Config::writeFile("entity/general/general_info.json", "[]");
         Config\Config::writeFile("_config/.htaccess", "Deny from all");
         Config\Config::writeFile("entity/.htaccess", "Deny from all");

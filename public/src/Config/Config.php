@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use Helpers\Helper;
+
 class Config
 {
 

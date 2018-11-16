@@ -36,10 +36,11 @@ class Config
      * @param string $www
      * @param string $protocol
      */
-    public static function createHtaccess(string $vendor, string $domain = "", string $www = "", string $protocol = "")
+    public static function createHtaccess(string $vendor = "", string $domain = "", string $www = "", string $protocol = "")
     {
-        if(!empty($domain) || defined("DOMINIO")) {
-            if(empty($domain)) {
+        if(!empty($vendor) || defined("DOMINIO")) {
+            if(empty($vendor)) {
+                $vendor = VENDOR;
                 $domain = DOMINIO;
                 $www = WWW;
                 $protocol = SSL;

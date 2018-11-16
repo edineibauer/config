@@ -102,11 +102,11 @@ class Config
 
         //public base
         if(file_exists(PATH_HOME . $path))
-            $file = self::addNotShow(PATH_HOME . $path, $file, PATH_HOME);
+            $file = self::addNotShow(PATH_HOME . $path, $file);
 
         //public session
         if(file_exists(PATH_HOME . $pathSession))
-            $file = self::addNotShow(PATH_HOME . $pathSession, $file, PATH_HOME);
+            $file = self::addNotShow(PATH_HOME . $pathSession, $file);
 
         //para cada biblioteca
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
@@ -137,10 +137,10 @@ class Config
     /**
      * @param string $dir
      * @param array $file
-     * @param string $dirPermission
+     * @param string|null $dirPermission
      * @return array
      */
-    private static function addNotShow(string $dir, array $file, string $dirPermission): array
+    private static function addNotShow(string $dir, array $file, string $dirPermission = null): array
     {
         $m = json_decode(file_get_contents($dir), true);
         if (!empty($m) && is_array($m)) {
@@ -148,12 +148,12 @@ class Config
                 if($setor === "*" || is_string($entity)) {
                     for ($e = 0; $e < 20; $e++) {
                         //Adiciona entidade ao setor
-                        if ((!isset($file[$e]) || !in_array($entity, $file[$e])) && file_exists($dirPermission . "public/entity/cache/{$entity}.json"))
+                        if ((!isset($file[$e]) || !in_array($entity, $file[$e])) && (empty($dirPermission) || file_exists($dirPermission . "public/entity/cache/{$entity}.json")))
                             $file[$e][] = $entity;
                     }
                 } elseif(is_array($entity)) {
                     foreach ($entity as $e) {
-                        if (file_exists($dirPermission . "public/entity/cache/{$e}.json") && (!in_array($e, $file) || !isset($file[$setor])))
+                        if ((empty($dirPermission) || file_exists($dirPermission . "public/entity/cache/{$e}.json")) && (!in_array($e, $file) || !isset($file[$setor])))
                             $file[$setor][] = $e;
                     }
                 }

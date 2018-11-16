@@ -145,14 +145,17 @@ class Config
         $m = json_decode(file_get_contents($dir), true);
         if (!empty($m) && is_array($m)) {
             foreach ($m as $setor => $entity) {
-                if(is_array($entity) && $setor == $_SESSION['userlogin']['setor']) {
-                    foreach ($entity as $e) {
-                        if (file_exists($dirPermission . "public/entity/cache/{$e}.json") && !in_array($e, $file))
-                            $file[] = $e;
+                if($setor === "*" || is_string($entity)) {
+                    for ($e = 0; $e < 20; $e++) {
+                        //Adiciona entidade ao setor
+                        if ((!isset($file[$e]) || !in_array($entity, $file[$e])) && file_exists($dirPermission . "public/entity/cache/{$entity}.json"))
+                            $file[$e][] = $entity;
                     }
-                } elseif(is_string($entity)) {
-                    if (file_exists($dirPermission . "public/entity/cache/{$entity}.json") && !in_array($entity, $file))
-                        $file[] = $entity;
+                } elseif(is_array($entity)) {
+                    foreach ($entity as $e) {
+                        if (file_exists($dirPermission . "public/entity/cache/{$e}.json") && (!in_array($e, $file) || !isset($file[$setor])))
+                            $file[$setor][] = $e;
+                    }
                 }
             }
         }

@@ -146,4 +146,40 @@ class Config
 
         return $file;
     }
+
+    /**
+     * Retorna a lista de entidades bloqueadas por setor
+     * @return array
+     */
+    public static function getEntityNotAllow(): array
+    {
+        $file = [];
+        if (file_exists(PATH_HOME . "entity/-entity.json"))
+            $file = json_decode(file_get_contents(PATH_HOME . "entity/-entity.json"), true);
+
+        foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/entity/-entity.json")){
+                $json = json_decode(file_get_contents(PATH_HOME . VENDOR . "{$lib}/public/entity/-entity.json"), true);
+                foreach ($json as $setor => $info) {
+                    foreach ($info as $entity) {
+                        if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/entity/cache/{$entity}.json")) {
+                            if ($setor === "*") {
+                                for ($e = 0; $e < 20; $e++) {
+                                    //Adiciona entidade ao setor
+                                    if (!isset($file[$e]) || !in_array($entity, $file[$e]))
+                                        $file[$e][] = $entity;
+                                }
+                            } else {
+                                //Adiciona entidade ao setor
+                                if (!in_array($entity, $file[$setor]))
+                                    $file[$setor][] = $entity;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $file;
+    }
 }

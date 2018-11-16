@@ -90,35 +90,48 @@ class Config
     }
 
     /**
-     * Retorna lista com entidades que não devem ser exibidas na dashboard
+     * Retorna lista com entidades que não devem ser exibidas na dashboard por setor
+     * @return array
      */
-    public static function getMenuNotAllow()
+    public static function getMenuNotAllowAll(): array
     {
-        $file = [];
-        $permission = json_decode(file_get_contents(PATH_HOME . "_config/menu_not_show.json"), true);
-        if(!empty($_SESSION['userlogin']) && !empty($permission[$_SESSION['userlogin']['setor']]))
-            $file = $permission[$_SESSION['userlogin']['setor']];
-        elseif(empty($_SESSION['userlogin']) && !empty($permission[0]))
-            $file = $permission[0];
-
+        $setor = empty($_SESSION['userlogin']['setor']) ? 0 : $_SESSION['userlogin']['setor'];
         $path = "public/dash/-menu.json";
-        if (!empty($_SESSION['userlogin']))
-            $pathSession = "public/dash/{$_SESSION['userlogin']['setor']}/-menu.json";
+        $pathSession = "public/dash/{$setor}/-menu.json";
+        $file = [];
 
-        if (file_exists(PATH_HOME . $path))
+        //public base
+        if(file_exists(PATH_HOME . $path))
             $file = self::addNotShow(PATH_HOME . $path, $file, PATH_HOME);
 
-        if (isset($pathSession) && file_exists(PATH_HOME . $pathSession))
+        //public session
+        if(file_exists(PATH_HOME . $pathSession))
             $file = self::addNotShow(PATH_HOME . $pathSession, $file, PATH_HOME);
 
+        //para cada biblioteca
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/{$path}"))
-                $file = self::addNotShow(PATH_HOME . VENDOR . "{$lib}/{$path}", $file, PATH_HOME . VENDOR . $lib);
-            if (isset($pathSession) && file_exists(PATH_HOME . VENDOR . "{$lib}/{$pathSession}"))
-                $file = self::addNotShow(PATH_HOME . VENDOR . "{$lib}/{$pathSession}", $file, PATH_HOME . VENDOR . $lib);
+            $base = PATH_HOME . VENDOR . "{$lib}/";
+
+            //lib base
+            if (file_exists($base . $path))
+                $file = self::addNotShow($base . $path, $file, $base);
+
+            //lib session
+            if (file_exists($base . $pathSession))
+                $file = self::addNotShow($base . $pathSession, $file, $base);
         }
 
         return $file;
+    }
+
+    /**
+     * Retorna entidades que não devem ser exibidas na dashboard deste setor
+     * @return array
+     */
+    public static function getMenuNotAllow(): array
+    {
+        $setor = empty($_SESSION['userlogin']['setor']) ? 0 : $_SESSION['userlogin']['setor'];
+        return self::getMenuNotAllowAll()[$setor];
     }
 
     /**
@@ -134,11 +147,11 @@ class Config
             foreach ($m as $setor => $entity) {
                 if(is_array($entity) && $setor == $_SESSION['userlogin']['setor']) {
                     foreach ($entity as $e) {
-                        if (file_exists($dirPermission . "/public/entity/cache/{$e}.json") && !in_array($e, $file))
+                        if (file_exists($dirPermission . "public/entity/cache/{$e}.json") && !in_array($e, $file))
                             $file[] = $e;
                     }
                 } elseif(is_string($entity)) {
-                    if (file_exists($dirPermission . "/public/entity/cache/{$entity}.json") && !in_array($entity, $file))
+                    if (file_exists($dirPermission . "public/entity/cache/{$entity}.json") && !in_array($entity, $file))
                         $file[] = $entity;
                 }
             }

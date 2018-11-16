@@ -127,9 +127,16 @@ class Config
     {
         $m = json_decode(file_get_contents($dir), true);
         if (!empty($m) && is_array($m)) {
-            foreach ($m as $entity) {
-                if (file_exists($dirPermission . "/public/entity/cache/{$entity}.json") && !in_array($entity, $file))
-                    $file[] = $entity;
+            foreach ($m as $setor => $entity) {
+                if(is_array($entity) && $setor == $_SESSION['userlogin']['setor']) {
+                    foreach ($entity as $e) {
+                        if (file_exists($dirPermission . "/public/entity/cache/{$e}.json") && !in_array($e, $file))
+                            $file[] = $e;
+                    }
+                } elseif(is_string($entity)) {
+                    if (file_exists($dirPermission . "/public/entity/cache/{$entity}.json") && !in_array($entity, $file))
+                        $file[] = $entity;
+                }
             }
         }
 

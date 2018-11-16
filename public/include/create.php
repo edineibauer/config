@@ -110,18 +110,6 @@ function createParam(array $dados)
     Config\Config::writeFile("_config/param.json", json_encode($data));
 }
 
-/**
- * @param array $data
- * @param string $domain
- * @param string $www
- * @param string $protocol
- */
-function createHtaccess(array $data, string $domain, string $www, string $protocol)
-{
-    $dados = "RewriteCond %{HTTP_HOST} ^" . ($www ? "{$domain}\nRewriteRule ^ http" . ($protocol ? "s" : "") . "://www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) http" . ($protocol ? "s" : "") . "://%1/$1") . " [L,R=301]";
-    Config\Config::writeFile(".htaccess", str_replace(['{$dados}', '{$home}'], [$dados, $data['home']], file_get_contents("public/installTemplates/htaccess.txt")));
-}
-
 function getAccessFile()
 {
     return '<Files "*.json">
@@ -201,7 +189,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::writeFile("public/api/.htaccess", "Deny from all");
         Config\Config::writeFile("vendor/.htaccess", getAccessFile());
 
-        Config\Config::createHtaccess($dados['dominio'], $dados['www'], $dados['ssl']);
+        Config\Config::createHtaccess($dados['vendor'], $dados['dominio'], $dados['www'], $dados['ssl']);
 
         header("Location: ../../../dashboardUpdateSystem/force");
     } else {

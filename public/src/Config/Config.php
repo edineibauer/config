@@ -170,8 +170,8 @@ class Config
     public static function getEntityNotAllow(): array
     {
         $file = [];
-        if (file_exists(PATH_HOME . "entity/-entity.json"))
-            $file = json_decode(file_get_contents(PATH_HOME . "entity/-entity.json"), true);
+        if (file_exists(PATH_HOME . "public/entity/-entity.json"))
+            $file = json_decode(file_get_contents(PATH_HOME . "public/entity/-entity.json"), true);
 
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
             if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/entity/-entity.json")){

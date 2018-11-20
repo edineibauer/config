@@ -159,6 +159,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::createDir("public/dash");
         Config\Config::createDir("public/tpl");
         Config\Config::createDir("public/cron");
+        Config\Config::createDir("public/entity");
         Config\Config::createDir("assetsPublic");
         Config\Config::createDir("assetsPublic/img");
         copy('public/assets/dino.png', "../../../uploads/site/dino.png");
@@ -178,7 +179,7 @@ if (!empty($dados['sitename']) && !empty($_FILES['favicon']['name'])) {
         Config\Config::writeFile("public/view/index.php", file_get_contents("public/installTemplates/viewIndex.txt"));
         Config\Config::writeFile("public/param/index.json", file_get_contents("public/installTemplates/viewIndexParam.txt"));
         Config\Config::writeFile("public/cron/index.php", str_replace('{$path_home}', $dados['path_home'], file_get_contents("public/installTemplates/cronIndex.txt")));
-        Config\Config::writeFile("public/entity/-entity.json", '{"1":[],"2":[],"3":[],"0":[]}');
+        Config\Config::writeFile("public/entity/-entity.json", '{"1":[],"2":[],"3":[],"0":[], "20":[]}');
         Config\Config::writeFile("public/dash/-menu.json", '{"1":[],"2":[],"3":[]}');
         Config\Config::writeFile("entity/general/general_info.json", "[]");
         Config\Config::writeFile("_config/.htaccess", "Deny from all");

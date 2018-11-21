@@ -14,7 +14,7 @@ class Config
     public static function createConfig(array $dados = [])
     {
         $path = defined("PATH_HOME") ? PATH_HOME : "../../../";
-        if(empty($dados))
+        if (empty($dados))
             $dados = json_decode(file_get_contents($path . "_config/config.json"), true);
         else
             self::writeFile("_config/config.json", json_encode($dados));
@@ -38,8 +38,8 @@ class Config
      */
     public static function createHtaccess(string $vendor = "", string $domain = "", string $www = "", string $protocol = "")
     {
-        if(!empty($vendor) || defined("DOMINIO")) {
-            if(empty($vendor)) {
+        if (!empty($vendor) || defined("DOMINIO")) {
+            if (empty($vendor)) {
                 $vendor = VENDOR;
                 $domain = DOMINIO;
                 $www = WWW;
@@ -62,9 +62,9 @@ class Config
     public static function writeFile(string $url, string $content)
     {
         try {
-            if(defined("PATH_HOME") && !preg_match("/^" . preg_quote(PATH_HOME, '/') . "/i", $url))
+            if (defined("PATH_HOME") && !preg_match("/^" . preg_quote(PATH_HOME, '/') . "/i", $url))
                 $url = PATH_HOME . (preg_match("/^\//i", $url) ? substr($url, 1) : $url);
-            elseif(!defined("PATH_HOME"))
+            elseif (!defined("PATH_HOME"))
                 $url = "../../../" . $url;
 
             $fp = fopen($url, "w+");
@@ -75,6 +75,7 @@ class Config
 
         }
     }
+
     /**
      * Cria Diretório
      * @param string $dir
@@ -101,11 +102,11 @@ class Config
         $file = [];
 
         //public base
-        if(file_exists(PATH_HOME . $path))
+        if (file_exists(PATH_HOME . $path))
             $file = self::addNotShow(PATH_HOME . $path, $file);
 
         //public session
-        if(file_exists(PATH_HOME . $pathSession))
+        if (file_exists(PATH_HOME . $pathSession))
             $file = self::addNotShow(PATH_HOME . $pathSession, $file);
 
         //para cada biblioteca
@@ -143,18 +144,33 @@ class Config
     private static function addNotShow(string $dir, array $file, string $dirPermission = null): array
     {
         $m = json_decode(file_get_contents($dir), true);
-        if (!empty($m) && is_array($m)) {
-            foreach ($m as $setor => $entity) {
-                if($setor === "*" || is_string($entity)) {
-                    for ($e = 0; $e < 20; $e++) {
-                        //Adiciona entidade ao setor
-                        if ((!isset($file[$e]) || !in_array($entity, $file[$e])) && (empty($dirPermission) || file_exists($dirPermission . "public/entity/cache/{$entity}.json")))
-                            $file[$e][] = $entity;
-                    }
-                } elseif(is_array($entity)) {
-                    foreach ($entity as $e) {
-                        if ((empty($dirPermission) || file_exists($dirPermission . "public/entity/cache/{$e}.json")) && (!in_array($e, $file) || !isset($file[$setor])))
-                            $file[$setor][] = $e;
+        if (!empty($m)) {
+            if (is_string($m)) {
+                for ($e = 0; $e < 21; $e++) {
+                    //Adiciona entidade ao setor
+                    if ((!isset($file[$e]) || !in_array($m, $file[$e])) && (empty($dirPermission) || file_exists($dirPermission . "public/entity/cache/{$m}.json")))
+                        $file[$e][] = $m;
+                }
+            } elseif (is_array($m)) {
+                foreach ($m as $setor => $entity) {
+                    if ($setor === "*" || is_string($entity)) {
+                        for ($e = 0; $e < 21; $e++) {
+                            //Adiciona entidade ao setor
+                            if(is_array($entity)) {
+                                foreach ($entity as $entit) {
+                                    if ((empty($dirPermission) || file_exists($dirPermission . "public/entity/cache/{$entit}.json")) && (!isset($file[$setor]) || !in_array($entit, $file)))
+                                        $file[$setor][] = $entit;
+                                }
+                            } elseif(is_string($entity)) {
+                                if ((!isset($file[$e]) || !in_array($entity, $file[$e])) && (empty($dirPermission) || file_exists($dirPermission . "public/entity/cache/{$entity}.json")))
+                                    $file[$e][] = $entity;
+                            }
+                        }
+                    } elseif (is_array($entity)) {
+                        foreach ($entity as $e) {
+                            if ((empty($dirPermission) || file_exists($dirPermission . "public/entity/cache/{$e}.json")) && (!isset($file[$setor]) || !in_array($e, $file)))
+                                $file[$setor][] = $e;
+                        }
                     }
                 }
             }
@@ -174,7 +190,7 @@ class Config
             $file = json_decode(file_get_contents(PATH_HOME . "public/entity/-entity.json"), true);
 
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/entity/-entity.json")){
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/entity/-entity.json")) {
                 $json = json_decode(file_get_contents(PATH_HOME . VENDOR . "{$lib}/public/entity/-entity.json"), true);
                 foreach ($json as $setor => $info) {
                     foreach ($info as $entity) {

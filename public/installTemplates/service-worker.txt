@@ -50,7 +50,37 @@ self.addEventListener('fetch', function (e) {
     let img = new RegExp("\.(png|jpg|ico|gif|jpeg|svg)$", "i");
 
     if (dashboard.test(url)) {
-        e.respondWith(fetch(e.request));
+        e.respondWith(
+            caches.open(cacheData).then(function (cache) {
+                return cache.match(e.request).then(function (response) {
+
+                    //update cache
+                    var fetchPromise = fetch(e.request).then(function (networkResponse) {
+
+                        //se online estiver ok, armazena no cache
+                        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic')
+                            return networkResponse;
+
+                        return cache.match("get/network").then(function (response) {
+                            return response;
+                        });
+
+                    }).catch(function (error) {
+
+                        //se online tiver errro e cache não existir
+                        if (error.toString() === "TypeError: Failed to fetch" && !response) {
+
+                            //retorna erro de conexão ao fetch
+                            return cache.match("get/network").then(function (response) {
+                                return response;
+                            });
+                        }
+                    });
+
+                    return response || fetchPromise;
+                });
+            })
+        );
 
     } else if (core.test(url)) {
 

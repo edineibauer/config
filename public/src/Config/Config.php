@@ -132,7 +132,7 @@ class Config
     public static function getMenuNotAllow(): array
     {
         $setor = empty($_SESSION['userlogin']['setor']) ? 0 : $_SESSION['userlogin']['setor'];
-        return self::getMenuNotAllowAll()[$setor];
+        return self::getMenuNotAllowAll()[$setor] ?? [];
     }
 
     /**

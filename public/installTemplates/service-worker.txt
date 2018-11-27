@@ -29,7 +29,6 @@ self.addEventListener('activate', function (e) {
         caches.keys().then(function (keyList) {
             return Promise.all(keyList.map(function (key) {
                 if (key !== cacheShell && key !== cacheData && key !== cacheAssets) {
-                    console.log('cache '+ key +' removed');
                     return caches.delete(key);
                 }
             }));
@@ -39,17 +38,19 @@ self.addEventListener('activate', function (e) {
 });
 
 self.addEventListener('fetch', function (e) {
-    console.log('Fetch url: ', e.request.url);
 
     let url = e.request.url;
     let core = new RegExp("assetsPublic\/", "i");
     let assets = new RegExp("\.(css|js)$", "i");
     let tpl = new RegExp("\.mst$", "i");
     let metadados = new RegExp("\.json$", "i");
-    let dashboard = new RegExp("\/(dashboard|entidades|session\/|set|api\/|app\/)", "i");
+    let notCache = new RegExp("\/(dashboard|entidades|session\/|api\/|app\/)", "i");
+    let requests = new RegExp("\/set", "i");
     let img = new RegExp("\.(png|jpg|ico|gif|jpeg|svg)$", "i");
 
-    if (dashboard.test(url)) {
+    if (notCache.test(url)) {
+        e.respondWith(fetch(e.request));
+    } else if (requests.test(url)) {
         e.respondWith(
             caches.open(cacheData).then(function (cache) {
                 return cache.match(e.request).then(function (response) {
@@ -85,7 +86,6 @@ self.addEventListener('fetch', function (e) {
     } else if (core.test(url)) {
 
         //consulta o cache apenas
-        console.log('cache');
 
         e.respondWith(
             caches.open(cacheShell).then(function (cache) {
@@ -121,7 +121,6 @@ self.addEventListener('fetch', function (e) {
     } else if(tpl.test(url) || metadados.test(url) || assets.test(url) || img.test(url)) {
 
         //Consulta cache, consulta online, update cache
-        console.log("cache && online && update cache");
         e.respondWith(
             caches.open(cacheAssets).then(function (cache) {
                 return cache.match(e.request).then(function (response) {
@@ -156,7 +155,6 @@ self.addEventListener('fetch', function (e) {
     } else {
 
         //Consulta cache, consulta online, update cache
-        console.log("pagina, cache and update");
         e.respondWith(
             caches.open(cacheData).then(function (cache) {
                 return cache.match(e.request).then(function (response) {

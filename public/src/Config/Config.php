@@ -153,7 +153,7 @@ class Config
                 }
             } elseif (is_array($m)) {
                 foreach ($m as $setor => $entity) {
-                    if ($setor === "*" || is_string($entity)) {
+                    if ($setor === "*") {
                         for ($e = 0; $e < 21; $e++) {
                             //Adiciona entidade ao setor
                             if(is_array($entity)) {

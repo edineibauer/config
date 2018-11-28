@@ -44,13 +44,13 @@ self.addEventListener('fetch', function (e) {
     let assets = new RegExp("\.(css|js)$", "i");
     let tpl = new RegExp("\.mst$", "i");
     let metadados = new RegExp("\.json$", "i");
-    let notCache = new RegExp("\/(dashboard|entidades|session\/|api\/|app\/)", "i");
-    let requests = new RegExp("\/set", "i");
+    let notCache = new RegExp("\/(dashboard|entidades|set|api\/|app\/)", "i");
+    //let requests = new RegExp("\/set", "i");
     let img = new RegExp("\.(png|jpg|ico|gif|jpeg|svg)$", "i");
 
     if (notCache.test(url)) {
         e.respondWith(fetch(e.request));
-    } else if (requests.test(url)) {
+    /*} else if (requests.test(url)) {
         e.respondWith(
             caches.open(cacheData).then(function (cache) {
                 return cache.match(e.request).then(function (response) {
@@ -82,7 +82,7 @@ self.addEventListener('fetch', function (e) {
                 });
             })
         );
-
+    */
     } else if (core.test(url)) {
 
         //consulta o cache apenas

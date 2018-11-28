@@ -6,8 +6,6 @@
     "{$home}/get/blank"
   ],
   "filesData": [
-    "{$home}",
-    "{$home}/get/network",
-    "{$home}/get/404"
+    "{$home}"
   ]
 }

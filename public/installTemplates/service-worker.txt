@@ -44,7 +44,7 @@ self.addEventListener('fetch', function (e) {
     let assets = new RegExp("\.(css|js)$", "i");
     let tpl = new RegExp("\.mst$", "i");
     let metadados = new RegExp("\.json$", "i");
-    let notCache = new RegExp("\/(dashboard|entidades|set|api\/|app\/)", "i");
+    let notCache = new RegExp("\/(dashboard|UIEntidades|UIDev|set|api\/|app\/)", "i");
     //let requests = new RegExp("\/set", "i");
     let img = new RegExp("\.(png|jpg|ico|gif|jpeg|svg)$", "i");
 

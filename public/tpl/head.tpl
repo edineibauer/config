@@ -5,6 +5,7 @@
 <title class="core-title">{$title}</title>
 <link rel="canonical" href="{$home}">
 <link rel="shortcut icon" href="{$favicon}">
+<meta name="description" content="{$sitedesc}">
 <link rel="manifest" href="{$home}manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">

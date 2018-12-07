@@ -14,7 +14,7 @@ use LinkControl\Link;
 
 $url = strip_tags(trim($_GET['data']));
 if (!empty($url)) {
-    $route = new Route($url, 'ajax');
+    $route = new Route($url);
 
     if ($route->getRoute()) {
 

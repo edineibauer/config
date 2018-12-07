@@ -13,8 +13,8 @@
 <link rel="apple-touch-icon" href="{$home}assetsPublic/img/favicon-96.png">
 <meta name="msapplication-TileImage" content="{$home}assetsPublic/img/favicon.png">
 <meta name="msapplication-TileColor" content="#2F3BA2">
-<link rel='stylesheet' href='{$home}assetsPublic/loadingScreen.min.css?v={$version}' type='text/css' media='all'/>
-<link rel='stylesheet' href='{$home}assetsPublic/core.min.css?v={$version}'>
+<link rel='stylesheet' href='{$home}assetsPublic/loadingScreen.min.css' type='text/css' media='all'/>
+<link rel='stylesheet' href='{$home}assetsPublic/core.min.css'>
 
 <style type="text/css" id="core-style"></style>
 <script>
@@ -30,7 +30,7 @@
     const FAVICON = '{$favicon}';
 </script>
 
-<script src='{$home}assetsPublic/loadingScreen.min.js?v={$version}' defer></script>
-<script src='{$home}assetsPublic/appCore.min.js?v={$version}' defer></script>
+<script src='{$home}assetsPublic/loadingScreen.min.js' defer></script>
+<script src='{$home}assetsPublic/appCore.min.js' defer></script>
 {*<script src='{$home}assetsPublic/core.min.js?v={$version}' defer></script>*}
 {*<script src='{$home}vue.js?v={$version}' defer></script>*}

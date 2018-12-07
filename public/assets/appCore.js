@@ -83,13 +83,16 @@ window.onload = function () {
                 return response;
             }
         });
-    }).then(d => {
-
 
     }).then(d => {
         let scriptCore = document.createElement('script');
-        scriptCore.src = HOME + "assetsPublic/core.min.js?v=" + VERSION;
+        scriptCore.src = HOME + "assetsPublic/core.min.js";
         document.head.appendChild(scriptCore);
+
+        let styleFont = document.createElement('link');
+        styleFont.rel = "stylesheet";
+        styleFont.href = HOME + "assetsPublic/fonts.min.css";
+        document.head.appendChild(styleFont);
 
         if (loading_screen)
             loading_screen.finish();

@@ -2,11 +2,12 @@
   "title": "{$sitename}",
   "js": [
     "jquery",
-    "vue",
     "hammer",
     "toast",
-    "helpers",
-    "app"
+    "mustache",
+    "core",
+    "utilitarios",
+    "header"
   ],
   "css": [
     "normalize",

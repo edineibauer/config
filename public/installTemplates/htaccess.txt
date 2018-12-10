@@ -7,9 +7,6 @@ RewriteRule ^set\/?$ apiSet.php [L]
 RewriteRule ^api\/(.*)$ apiRequest.php?data=$1 [L]
 RewriteRule ^app\/(.*)$ apiGetPublic.php?data=$1 [L]
 RewriteRule ^{$vendor}{$dominio}\/public\/(.*)$ public/$1 [L]
-RewriteRule ^request\/get\/view\/(.*)$ apiGet.php?data=$1 [L]
-RewriteRule ^request\/get\/(.*)$ apiGet.php?data=$1 [L]
-RewriteRule ^request\/post\/?$ apiSet.php [L]
 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d

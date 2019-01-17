@@ -159,7 +159,7 @@ class Config
                             if(is_array($entity)) {
                                 foreach ($entity as $entit) {
                                     if ((empty($dirPermission) || file_exists($dirPermission . "public/entity/cache/{$entit}.json")) && (!isset($file[$setor]) || !in_array($entit, $file)))
-                                        $file[$setor][] = $entit;
+                                        $file[$e][] = $entit;
                                 }
                             } elseif(is_string($entity)) {
                                 if ((!isset($file[$e]) || !in_array($entity, $file[$e])) && (empty($dirPermission) || file_exists($dirPermission . "public/entity/cache/{$entity}.json")))

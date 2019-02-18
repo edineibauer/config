@@ -21,6 +21,7 @@ function getServerConstants(array $dados)
     $dados['vendor'] = "vendor/conn/";
     $dados['version'] = "1.00";
     $dados['repositorio'] = "http://uebster.com/";
+    $dados['adm'] = 1;
 
     return $dados;
 }
